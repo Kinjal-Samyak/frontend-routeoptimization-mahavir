@@ -1,0 +1,101 @@
+<div class="container fileUploadWrapper mt-0 px-0">
+    <div class="row">
+        <div class="col-md-12 px-0">
+            <div class="row form-group bg_clr_blue">
+                <div class="col-md-12 d-flex justify-content-between">
+                    <h3 class="pt-2 mt-1 pb-2 mb-0">Map Your Data</h3>
+
+                    <button
+                        mat-icon-button
+                        color="primary"
+                        class="width_18"
+                        (click)="onNoClick()"
+                    >
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="row form-group mx-4">
+                <p class="mb-0 pop_text_clr">
+                    We need your help matching some of the data from your CSV.
+                    Please map/correct my columns that we've missed!
+                </p>
+            </div>
+            <div class="border_bot"></div>
+        </div>
+
+        <div class="col-md-12 form-group pt-3 px-0">
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <h3 class="mb-0 font-weight-bold">Categories</h3>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="mb-0 font-weight-bold">Your Data Coumns</h3>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="border_bot"></div>
+            <ng-container *ngIf="columnList" class="row form-group">
+                <form [formGroup]="columnMapFrm" class="dynamic-form">
+                    <div
+                        *ngFor="let column of columnList; let i = index"
+                        class="row my-2 column-list"
+                    >
+                        <div class="col-md-4 pt-3">
+                            {{ column.columnName }}
+                            <span class="text-danger" *ngIf="column.isRequired"
+                                >*</span
+                            >
+                        </div>
+                        <div class="col-md-6 yess">
+                            <mat-form-field appearance="outline">
+                                <ng-container>
+                                    <input
+                                        class="pad_bot_5"
+                                        [required]="column.isRequired"
+                                        type="text"
+                                        matInput
+                                        [formControlName]="column.columnName"
+                                /></ng-container>
+
+                                <mat-error *ngIf="column.isRequired">
+                                    {{ column.columnName }} is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- <div class="col-md-2 mar_top6 text-center">
+                            <img
+                                src="../../../../assets/images/right_icon.svg"
+                                alt=""
+                            />
+                        </div> -->
+                    </div>
+                </form>
+            </ng-container>
+        </div>
+        <div class="col-md-12 d-flex justify-content-between">
+            <div class="form-group">
+                <button
+                    mat-flat-button
+                    type="button"
+                    (click)="save()"
+                    class="Common_btn_popup mr-2"
+                >
+                    Save
+                </button>
+                <button
+                    mat-flat-button
+                    type="button"
+                    (click)="CloseClick()"
+                    class="Common_btn_popup"
+                >
+                    Cancel
+                </button>
+            </div>
+            <!-- <div class=" form-group">
+            <button mat-flat-button type="button" (click)="save()" class="Common_btn_new1">Add</button>
+
+        </div> -->
+        </div>
+    </div>
+</div>

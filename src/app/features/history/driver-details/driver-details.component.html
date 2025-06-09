@@ -1,0 +1,82 @@
+<div class="details">
+    <div class="contact">
+        <a class="tel-num" href="tel:9876543210">
+            <mat-icon>call</mat-icon
+            ><span>{{ driverDetails?.contactNo || '-' }}</span>
+        </a>
+    </div>
+    <div class="profile" align="center">
+        <img src="../../../../assets/images/fakeprofile.jpeg" />
+        <h2 class="driverName Drv1">
+            {{ driverDetails?.firstName + ' '
+            }}{{ driverDetails?.lastName ? driverDetails?.lastName : '' }}
+        </h2>
+        <h3 class="driver_id">{{ driverDetails?.driverDetailId || '-' }}</h3>
+        <div class="email">
+            <a href="mailto:{{ driverDetails?.email }}">
+                <h2 class="driver_details">
+                    <img
+                        style="width: 16px; height: auto; border-radius: 0"
+                        src="../../../../assets/images/card-icon.svg"
+                    /><span style="margin-left: 5px">
+                        {{ driverDetails?.email || '-' }}</span
+                    >
+                </h2>
+            </a>
+        </div>
+        <div class="address">
+            <span class="address_icon">
+                <img
+                    style="width: 13px; height: 18px"
+                    src="../../../../assets/images/map_icon.svg"
+                />
+                <h3>
+                    {{
+                        driverDetails?.address
+                            ? driverDetails?.address +
+                              ' ' +
+                              driverDetails?.city +
+                              ' ' +
+                              driverDetails?.state +
+                              ' ' +
+                              driverDetails?.countryId
+                            : '--'
+                    }}
+                </h3>
+            </span>
+        </div>
+
+        <div class="row">
+            <div class="col-3 p-1">
+                <h3 class="mb-1">Delivery</h3>
+                <h4 class="mb-0">{{ driverDetails?.stops.length || '-' }}</h4>
+            </div>
+            <div class="col-3 p-1">
+                <h3 class="mb-1">Shift Timing</h3>
+                <h4 class="mb-0">
+                    {{
+                        driverDetails?.shiftTimingFrom +
+                            ' to ' +
+                            driverDetails?.shiftTimingTo
+                    }}
+                </h4>
+            </div>
+
+            <div class="col-3 p-1">
+                <h3 class="mb-1">Rating</h3>
+                <h4 class="mb-0 d-flex star_rating">
+                    <img
+                        style="width: 15px; height: 15px; margin-right: 3px"
+                        src="../../../../assets/images/star.svg"
+                    />
+                    {{ driverDetails?.Rating || '0' }}
+                </h4>
+            </div>
+
+            <div class="col-3 p-1" style="border: none">
+                <h3 class="mb-1">Date</h3>
+                <h4 class="mb-0">{{ driverDetails?.date || '-' }}</h4>
+            </div>
+        </div>
+    </div>
+</div>

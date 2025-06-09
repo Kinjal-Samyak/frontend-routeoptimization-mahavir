@@ -1,0 +1,387 @@
+<div class="container-fluid popup-section">
+    <div class="row">
+        <div class="col-md-12 popup-header-section stop-section-header">
+            <div class="add-constraints">Add Constraints</div>
+            <div class="close-pop-up">
+                <mat-icon (click)="closeDialog()">close</mat-icon>
+            </div>
+        </div>
+
+        <div class="col-md-12 mt10">
+            <mat-label class="lable pop_font"
+                >Type <span class="text-danger">*</span></mat-label
+            >
+            <mat-form-field appearance="outline" class="matform mat-constraint">
+                <mat-select
+                    style="border-radius: 10px"
+                    class="select-val"
+                    name="type"
+                    (selectionChange)="selctChange($event.value)"
+                    [formControl]="type"
+                    style="border-radius: 100px"
+                >
+                    <mat-option *ngFor="let item of data.type" [value]="item">
+                        {{ item }}
+                    </mat-option>
+                </mat-select>
+
+                <mat-error *ngIf="type.hasError('required')"
+                    >Please select a type</mat-error
+                >
+            </mat-form-field>
+
+            <!-- <button
+                mat-button
+                *ngIf="this.contentType === 'Suggested-stops'"
+                class="Common_btn ml10"
+                (click)="optimize()"
+            >
+                Optimize Route
+            </button> -->
+
+            <ng-container
+                *ngIf="type.value && currentType === 'InterDependentStops'"
+            >
+                <form [formGroup]="reactiveForm">
+                    <ng-container formArrayName="constraintsFromArray">
+                        <!-- material-table -->
+                        <div class="table-container">
+                            <table
+                                #table
+                                mat-table
+                                [dataSource]="dataSource"
+                                class="mat-table mat-elevation-z8 Table-source"
+                            >
+                                <ng-container
+                                    *ngFor="let column of displayedColumns"
+                                    matColumnDef="{{ column }}"
+                                >
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        {{ column }}
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        *matCellDef="let element; let i = index"
+                                        class="table-td"
+                                        [formGroup]="element"
+                                    >
+                                        <ng-container
+                                            *ngIf="column === 'From Address'"
+                                        >
+                                            <mat-form-field
+                                                appearance="outline"
+                                                class="matform inputs w-70"
+                                            >
+                                                <mat-select
+                                                    class="select-val"
+                                                    name="Address"
+                                                    panelClass="driver-list-select"
+                                                    formControlName="fromAddress"
+                                                >
+                                                    <mat-option
+                                                        *ngFor="
+                                                            let details of InterDependentFromStops
+                                                        "
+                                                        [value]="
+                                                            details.routeStopDetailId
+                                                        "
+                                                    >
+                                                        {{ details.address }}
+                                                        <br />
+                                                        {{
+                                                            details.city +
+                                                                ', ' +
+                                                                details.state +
+                                                                ', ' +
+                                                                details.countryId
+                                                        }}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </ng-container>
+                                        <ng-container
+                                            *ngIf="column === 'To Address'"
+                                        >
+                                            <!-- <mat-label>To Address</mat-label> -->
+                                            <mat-form-field
+                                                appearance="outline"
+                                                class="matform inputs w-70"
+                                            >
+                                                <mat-select
+                                                    class="select-val"
+                                                    name="Address"
+                                                    formControlName="toAddress"
+                                                    panelClass="driver-list-select"
+                                                >
+                                                    <mat-option
+                                                        *ngFor="
+                                                            let details of InterDependentToStops
+                                                        "
+                                                        [value]="
+                                                            details.routeStopDetailId
+                                                        "
+                                                    >
+                                                        {{ details.address }}
+                                                        <br />
+                                                        {{
+                                                            details.city +
+                                                                ', ' +
+                                                                details.state +
+                                                                ', ' +
+                                                                details.countryId
+                                                        }}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                            <!-- <mat-icon
+                                                (click)="deleteRow(element, i)"
+                                                class="delete-row deleteicon"
+                                                >delete</mat-icon
+                                            > -->
+                                            <!-- <svg class="Delete_icon" width="10" height="12" viewBox="0 0 10 12" fill="black" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.2168 4.21606H3.54112V9.97282H3.2168V4.21606Z" fill="black" />
+    <path d="M4.83789 4.21606H5.16221V9.97282H4.83789V4.21606Z" fill="black" />
+    <path d="M6.45996 4.21606H6.78429V9.97282H6.45996V4.21606Z" fill="black" />
+    <path
+        d="M6.29777 1.62152H3.70318C3.66017 1.62152 3.61892 1.60443 3.58851 1.57402C3.5581 1.54361 3.54102 1.50236 3.54102 1.45935V0.810705C3.54102 0.681681 3.59227 0.557941 3.6835 0.466707C3.77474 0.375473 3.89848 0.324219 4.0275 0.324219H5.97345C6.10247 0.324219 6.22621 0.375473 6.31745 0.466707C6.40868 0.557941 6.45993 0.681681 6.45993 0.810705V1.45935C6.45993 1.50236 6.44285 1.54361 6.41244 1.57402C6.38203 1.60443 6.34078 1.62152 6.29777 1.62152ZM3.86534 1.29719H6.13561V0.810705C6.13561 0.767697 6.11853 0.726451 6.08811 0.696039C6.0577 0.665628 6.01646 0.648543 5.97345 0.648543H4.0275C3.98449 0.648543 3.94325 0.665628 3.91284 0.696039C3.88242 0.726451 3.86534 0.767697 3.86534 0.810705V1.29719Z"
+        fill="black" />
+    <path
+        d="M9.21667 2.91874H0.784232C0.741224 2.91874 0.699978 2.90166 0.669567 2.87124C0.639155 2.84083 0.62207 2.79959 0.62207 2.75658V2.10793C0.622328 1.89297 0.707835 1.68689 0.859836 1.53488C1.01184 1.38288 1.21792 1.29738 1.43288 1.29712H8.56802C8.78298 1.29738 8.98906 1.38288 9.14106 1.53488C9.29306 1.68689 9.37857 1.89297 9.37883 2.10793V2.75658C9.37883 2.79959 9.36174 2.84083 9.33133 2.87124C9.30092 2.90166 9.25967 2.91874 9.21667 2.91874ZM0.946395 2.59442H9.0545V2.10793C9.0545 1.97891 9.00325 1.85517 8.91201 1.76393C8.82078 1.6727 8.69704 1.62144 8.56802 1.62144H1.43288C1.30386 1.62144 1.18012 1.6727 1.08888 1.76393C0.997649 1.85517 0.946395 1.97891 0.946395 2.10793V2.59442Z"
+        fill="black" />
+    <path
+        d="M7.78068 11.6756H2.22079C2.09811 11.6752 1.98008 11.6286 1.89018 11.5451C1.80028 11.4616 1.74509 11.3474 1.7356 11.2251L1.10884 2.76865C1.10719 2.74636 1.11016 2.72398 1.11756 2.7029C1.12497 2.68182 1.13665 2.66249 1.15188 2.64614C1.16711 2.62979 1.18555 2.61676 1.20605 2.60787C1.22655 2.59898 1.24866 2.59442 1.27101 2.59448H8.73046C8.75281 2.59442 8.77492 2.59898 8.79542 2.60787C8.81592 2.61676 8.83436 2.62979 8.84959 2.64614C8.86482 2.66249 8.8765 2.68182 8.8839 2.7029C8.89131 2.72398 8.89428 2.74636 8.89263 2.76865L8.26571 11.2251C8.25622 11.3474 8.20105 11.4616 8.11119 11.5451C8.02132 11.6285 7.90333 11.6751 7.78068 11.6756ZM1.44565 2.91881L2.05911 11.2011C2.06215 11.242 2.08056 11.2802 2.11065 11.3081C2.14074 11.3359 2.18027 11.3514 2.22128 11.3512H7.78068C7.82169 11.3514 7.86122 11.3359 7.8913 11.3081C7.92139 11.2802 7.93981 11.242 7.94284 11.2011L8.55582 2.91881H1.44565Z"
+        fill="black" />
+</svg> -->
+
+                                            <span
+                                                [ngStyle]="{
+                                                    'pointer-events':
+                                                        element.status ===
+                                                        'DISABLED'
+                                                            ? 'none'
+                                                            : 'pointer'
+                                                }"
+                                                (click)="deleteRow(element, i)"
+                                                class="deleteicon deleteicon1"
+                                            ></span>
+                                        </ng-container>
+
+                                        <ng-container
+                                            *ngIf="column === 'Driver List'"
+                                        >
+                                            <mat-form-field
+                                                appearance="outline"
+                                                class="matform inputs w-70"
+                                            >
+                                                <mat-select
+                                                    class="select-val"
+                                                    [formControl]="driverForm"
+                                                    placeholder="Driver list"
+                                                    #select
+                                                    multiple
+                                                >
+                                                    <div class="select-all">
+                                                        <mat-checkbox
+                                                            color="primary"
+                                                            [(ngModel)]="
+                                                                allSelected
+                                                            "
+                                                            [ngModelOptions]="{
+                                                                standalone: true
+                                                            }"
+                                                            (change)="
+                                                                toggleAllSelection()
+                                                            "
+                                                            >Select
+                                                            All</mat-checkbox
+                                                        >
+                                                    </div>
+                                                    <mat-option
+                                                        (click)="
+                                                            optionClick(driver)
+                                                        "
+                                                        *ngFor="
+                                                            let driver of driverList
+                                                        "
+                                                        [value]="
+                                                            driver.driverDetailId
+                                                        "
+                                                    >
+                                                        {{
+                                                            driver.firstName +
+                                                                ' '
+                                                        }}{{
+                                                            driver?.lastName
+                                                                ? driver?.lastName
+                                                                : ''
+                                                        }}
+                                                        {{
+                                                            ' ' +
+                                                                '(' +
+                                                                driver.shiftTimingFrom +
+                                                                ' - ' +
+                                                                driver.shiftTimingTo +
+                                                                ')'
+                                                        }}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </ng-container>
+                                    </td>
+                                </ng-container>
+
+                                <tr
+                                    mat-header-row
+                                    *matHeaderRowDef="
+                                        displayedColumns;
+                                        sticky: true
+                                    "
+                                ></tr>
+                                <tr
+                                    mat-row
+                                    *matRowDef="
+                                        let row;
+                                        columns: displayedColumns
+                                    "
+                                ></tr>
+                            </table></div
+                    ></ng-container>
+                </form>
+            </ng-container>
+
+            <div
+                class="table-container"
+                *ngIf="type.value && currentType === 'assignDriver'"
+            >
+                <table
+                    #table
+                    mat-table
+                    [dataSource]="dataSource"
+                    class="mat-table mat-elevation-z8 Table-source"
+                    *ngIf="type.value"
+                >
+                    <ng-container
+                        *ngFor="let column of displayedColumns"
+                        matColumnDef="{{ column }}"
+                    >
+                        <th mat-header-cell *matHeaderCellDef>
+                            {{ column }}
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element; let i = index"
+                            class="table-td"
+                        >
+                            <ng-container *ngIf="column === 'Driver List'">
+                                <mat-form-field
+                                    appearance="outline"
+                                    class="matform inputs w-50"
+                                >
+                                    <mat-select
+                                        class="select-val"
+                                        [formControl]="driverForm"
+                                        placeholder="Driver list"
+                                        #select
+                                        multiple
+                                    >
+                                        <div class="select-all">
+                                            <mat-checkbox
+                                                color="primary"
+                                                [(ngModel)]="allSelected"
+                                                [ngModelOptions]="{
+                                                    standalone: true
+                                                }"
+                                                (change)="toggleAllSelection()"
+                                                >Select All</mat-checkbox
+                                            >
+                                        </div>
+                                        <mat-option
+                                            (click)="optionClick(driver)"
+                                            *ngFor="let driver of driverList"
+                                            [value]="driver.driverDetailId"
+                                        >
+                                            {{ driver.firstName + ' '
+                                            }}{{
+                                                driver?.lastName
+                                                    ? driver?.lastName
+                                                    : ''
+                                            }}
+                                            {{
+                                                ' ' +
+                                                    '(' +
+                                                    driver.shiftTimingFrom +
+                                                    ' - ' +
+                                                    driver.shiftTimingTo +
+                                                    ')'
+                                            }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </ng-container>
+                        </td>
+                    </ng-container>
+
+                    <tr
+                        mat-header-row
+                        *matHeaderRowDef="displayedColumns; sticky: true"
+                    ></tr>
+                    <tr
+                        mat-row
+                        *matRowDef="let row; columns: displayedColumns"
+                    ></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-12 popup-footer-section padding15">
+            <ng-container
+                *ngIf="
+                    currentType !== 'suggestedStops' &&
+                    currentType !== 'assignDriver'
+                "
+            >
+                <div class="save-close-btn">
+                    <button
+                        mat-button
+                        class="Common_btn mr10"
+                        (click)="shareData()"
+                    >
+                        Save
+                        {{
+                            contentType === 'Suggested-stops'
+                                ? ' & Optimize'
+                                : ''
+                        }}
+                    </button>
+                    <button mat-button mat-dialog-close class="Common_btn ml5">
+                        Cancel
+                    </button>
+                </div>
+                <div
+                    class="add-btn"
+                    *ngIf="currentType === 'InterDependentStops'"
+                >
+                    <button mat-button (click)="addRow()" class="Common_btn">
+                        Add New
+                    </button>
+                </div>
+            </ng-container>
+
+            <div class="save-close-btn" *ngIf="currentType === 'assignDriver'">
+                <button
+                    mat-button
+                    class="Common_btn mr10"
+                    (click)="RouteData()"
+                >
+                    Save
+                    {{ contentType === 'Suggested-stops' ? ' & Optimize' : '' }}
+                </button>
+
+                <button mat-button mat-dialog-close class="Common_btn ml5">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

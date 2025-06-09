@@ -1,0 +1,275 @@
+<!-- <p>stop-details works!</p> -->
+<div class="bg_clr_pop">
+    <div class="d-flex justify-content-between pad_pop">
+        <h1 class="mb-0 title-2 font_18">
+            Stop Details
+            {{
+                '(' +
+                    stopDetails?.driverFirstName +
+                    (stopDetails?.driverLastName === null
+                        ? ''
+                        : ' ' + stopDetails?.driverLastName) +
+                    ')' +
+                    ' Stop No: ' +
+                    data?.stopDetails?.stopNum
+            }}
+        </h1>
+        <img
+            (click)="closDialog()"
+            src="../../../../assets/images/cross_icon.svg"
+            alt=""
+            style="cursor: pointer"
+            class="width_18"
+        />
+    </div>
+</div>
+<form class="stop-to-show">
+    <div class="row create-driver-section pad_pop">
+        <form class="w-100" [formGroup]="reactiveForm">
+            <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name"
+                    >Route Stop Detail Id</mat-label
+                >
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0"
+                >
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="routeId"
+                        type="text"
+                    />
+                    <mat-error>Route Stop Detail id is required </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name">Stop Name</mat-label>
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0"
+                >
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="name"
+                        type="text"
+                    />
+                    <mat-error>Name is required </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name">Contact No</mat-label>
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0"
+                >
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="contactNo"
+                        type="text"
+                    />
+                    <mat-error>Contact No is required </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name">Stop Time</mat-label>
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0"
+                >
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="stopTime"
+                        type="text"
+                    />
+                </mat-form-field>
+            </div>
+            <!-- <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name">To Time</mat-label>
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0"
+                >
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="toTime"
+                        type="text"
+                    />
+                    <mat-error>To Time is required </mat-error>
+                </mat-form-field>
+            </div> -->
+            <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name">Wait Time</mat-label>
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0 wait-time-out"
+                >
+                    <input
+                        class="txt_bx wait-time"
+                        matInput
+                        formControlName="waitTime"
+                        type="text"
+                    />
+                    <mat-error>Wait Time is required </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name">Parking Time</mat-label>
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0"
+                >
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="parkingTime"
+                        type="text"
+                    />
+                    <mat-error>Parking Time is required </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name">Break Time</mat-label>
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0"
+                >
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="breakTime"
+                        type="text"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name">To Break Time</mat-label>
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0"
+                >
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="toBreakTime"
+                        type="text"
+                    />
+
+                </mat-form-field>
+            </div> -->
+
+            <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name">Address</mat-label>
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0"
+                >
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="address"
+                        type="text"
+                        [matTooltip]="reactiveForm.controls.address.value"
+                    />
+                    <mat-error>Address is required </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name">Remark</mat-label>
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0"
+                >
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="remark"
+                        type="text"
+                    />
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name">Type</mat-label>
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0"
+                >
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="type"
+                        type="text"
+                    />
+                    <mat-error>Type is required </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name">Status</mat-label>
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0"
+                >
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="status"
+                        type="text"
+                    />
+                    <mat-error>Status is required </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 d-flex align-items-center">
+                <mat-label class="col-lg-4 label-name"
+                    >Est. Arrival Date-Time</mat-label
+                >
+                <mat-form-field
+                    appearance="outline"
+                    class="matform col-lg-8 paddinglr0"
+                >
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="estArvTime"
+                        type="text"
+                    />
+                </mat-form-field>
+            </div>
+            <div
+                class="col-md-12 d-flex align-items-center"
+                *ngIf="
+                    stopDetails?.problemStatus?.length > 0 &&
+                    stopDetails?.problemStatus
+                "
+            >
+                <mat-label class="col-lg-4 label-name">Issues Reason</mat-label>
+                <mat-form-field
+                    appearance="outline"
+                    class="col-md-12 d-flex align-items-center mt-1 text-area-issue"
+                >
+                    <textarea
+                        matInput
+                        formControlName="issueReason"
+                        placeholder="Ex. It makes me feel..."
+                    ></textarea>
+                </mat-form-field>
+            </div>
+
+            <div class="text-end ok-btn mb-10">
+                <button
+                    mat-button
+                    class="Common_btn ml10"
+                    (click)="closDialog()"
+                >
+                    Close
+                </button>
+            </div>
+        </form>
+    </div>
+</form>

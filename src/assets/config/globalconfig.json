@@ -1,0 +1,14 @@
+{
+    "authAPI": "http://optischoolrouteapi.sipldemo.in/authenticationapi",
+    "csvFileUrl": "http://stagingna.nglog.com/CustomerCSVService/Report/",
+    "routeoptimizationUrl": "https://stgconnectws.nglog.com/stgrouteoptimization/api/Optimize/",
+    "driverAPI": "http://optischoolrouteapi.sipldemo.in/driversapi",
+    "stopAPI": "http://optischoolrouteapi.sipldemo.in/stopsapi",
+    "liveTrackAPI": "http://optischoolrouteapi.sipldemo.in/liveTrackapi",
+    "fileUpload": "http://optischoolrouteapi.sipldemo.in/Fileuploadapi",
+    "historyAPI": "http://optischoolrouteapi.sipldemo.in/historyapi",
+    "optimizeRoute": "http://optischoolrouteapi.sipldemo.in/Routetransaction",
+    "routeTrackingAPI": "http://optischoolrouteapi.sipldemo.in/RouteTrackingApi",
+    "userAPI": "http://optischoolrouteapi.sipldemo.in/usersapi-school",
+    "pythonUrl": "http://10.100.111.124:8222/"
+}

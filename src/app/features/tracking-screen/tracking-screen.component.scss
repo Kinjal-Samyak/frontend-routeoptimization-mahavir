@@ -1,0 +1,35 @@
+.row {
+  width: 100%;
+  .google-map {
+    width: 100%;
+  }
+}
+
+.mat-span-title {
+  margin-right: 1rem;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17px;
+  letter-spacing: 0em;
+}
+.time-tracking {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  justify-content: space-between;
+  span {
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
+.section-view {
+  padding: 15px;
+}
+
+.header-dr-ac {
+  position: sticky;
+  top: 0;
+  z-index: 997;
+  background: #ffffff;
+}

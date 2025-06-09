@@ -1,0 +1,685 @@
+<div class="d-flex miain-div">
+    <div class="grid-layout">
+        <div class="mat-select pb-4">
+            <form [formGroup]="reactiveForm" class="login-form">
+                <div class="file-uploader justify-content-between input_cust">
+                    <input
+                        class="form-control font_13"
+                        #inputFile
+                        formControlName="fileUpload"
+                        type="file"
+                        accept=".json,.csv"
+                        (change)="onChange($event)"
+                    />
+
+                    <div mat-dialog-actions class="mb-0 mr-3">
+                        <div class="d-flex">
+                            <button
+                                mat-button
+                                class="Common_btn_route mr-3"
+                                (click)="getJsonvData()"
+                            >
+                                Optimize
+                            </button>
+                            <button
+                                mat-button
+                                mat-dialog-close
+                                class="Common_btn_route"
+                                (click)="ResetButton()"
+                            >
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="collapse_table" *ngIf="isTimeWindow">
+            <mat-accordion *ngIf="numOfDriver.length > 0">
+                <ng-container *ngFor="let driver of numOfDriver; let i = index">
+                    <mat-expansion-panel
+                        (opened)="panelOpenState = true"
+                        (closed)="panelOpenState = false"
+                        (click)="setGoogleMap(i)"
+                    >
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="font-weight-bold">
+                                Driver {{ i + 1 }}</mat-panel-title
+                            >
+                            <mat-panel-description></mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ng-container *ngIf="dataSource.length > 0">
+                            <table
+                                mat-table
+                                [dataSource]="dataSource[i]"
+                                class="mat-elevation-z8 box_shad"
+                            >
+                                <!--- Note that these columns can be defined in any order.
+     The actual rendered columns are set as a property on the row definition" -->
+                                <!-- connect Column -->
+                                <ng-container matColumnDef="ConnectStop">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Connect Stop
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element?.CustomerCode }}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Stop Column -->
+                                <ng-container matColumnDef="suggestedStop">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold text-center px-2"
+                                    >
+                                        Suggested Stop
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element?.SuggestedStop }}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Stop Column -->
+                                <ng-container matColumnDef="Jobs">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Job#
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element?.JobNo }}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Type Column -->
+                                <ng-container matColumnDef="type">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Type
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{
+                                            element?.type ||
+                                                element?.ServiceType
+                                        }}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Company Details Column -->
+                                <ng-container matColumnDef="companyDetails">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Company Details
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 left-align"
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element?.CompanyName }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Address">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Address
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 left-align"
+                                        *matCellDef="let element"
+                                    >
+                                        {{
+                                            element?.Address +
+                                                ', ' +
+                                                element?.City +
+                                                ', ' +
+                                                element?.State
+                                        }}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Miles Column
+                        <ng-container matColumnDef="miles">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                {{ country == 'USA' ? 'Miles' : 'Km' }}
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="let element"
+                            >
+                                {{ element?.DistanceTravelled || '0' }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="time">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                Service Time
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="let element"
+                            >
+                                {{ element.ServiceTime }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="select">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                Completed
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="
+                                    let element;
+                                    let selectIn = index
+                                "
+                            >
+                                <mat-checkbox
+                                    (change)="
+                                        selectedCode(
+                                            $event,
+                                            element,
+                                            mainI,
+                                            selectIn
+                                        )
+                                    "
+                                    [checked]="element?.completedStops"
+                                    [disabled]="isEnabled"
+                                    color="primary"
+                                    class="example-margin"
+                                ></mat-checkbox>
+                            </td>
+                        </ng-container> -->
+
+                                <tr
+                                    mat-header-row
+                                    *matHeaderRowDef="
+                                        displayedColumns;
+                                        sticky: true
+                                    "
+                                ></tr>
+                                <tr
+                                    mat-row
+                                    *matRowDef="
+                                        let row;
+                                        columns: displayedColumns
+                                    "
+                                ></tr>
+                            </table>
+                        </ng-container>
+                    </mat-expansion-panel>
+                </ng-container>
+            </mat-accordion>
+        </div>
+        <div
+            class="collapse_table"
+            *ngIf="dataSource.length > 0 && !isTimeWindow"
+        >
+            <span class="table-title">Route Details</span>
+            <div class="table-content">
+                <ng-container
+                    *ngFor="let driver of numOfDriver; let mainI = index"
+                >
+                    <ng-container *ngIf="dataSource.length > 0">
+                        <table
+                            mat-table
+                            [dataSource]="dataSource[mainI]"
+                            class="mat-elevation-z8 box_shad"
+                        >
+                            <!--- Note that these columns can be defined in any order.
+The actual rendered columns are set as a property on the row definition" -->
+                            <!-- connect Column -->
+                            <ng-container matColumnDef="ConnectStop">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font-weight-bold px-2"
+                                >
+                                    Connect Stop
+                                </th>
+                                <td
+                                    mat-cell
+                                    class="px-2 text-center"
+                                    *matCellDef="let element"
+                                >
+                                    {{ element?.CustomerCode }}
+                                </td>
+                            </ng-container>
+
+                            <!-- Stop Column -->
+                            <ng-container matColumnDef="suggestedStop">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font-weight-bold text-center px-2"
+                                >
+                                    Suggested Stop
+                                </th>
+                                <td
+                                    mat-cell
+                                    class="px-2 text-center"
+                                    *matCellDef="let element"
+                                >
+                                    {{ element?.SuggestedStop }}
+                                </td>
+                            </ng-container>
+
+                            <!-- Stop Column -->
+                            <ng-container matColumnDef="Jobs">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font-weight-bold px-2"
+                                >
+                                    Job#
+                                </th>
+                                <td
+                                    mat-cell
+                                    class="px-2 text-center"
+                                    *matCellDef="let element"
+                                >
+                                    {{ element?.JobNo }}
+                                </td>
+                            </ng-container>
+
+                            <!-- Type Column -->
+                            <ng-container matColumnDef="type">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font-weight-bold px-2"
+                                >
+                                    Type
+                                </th>
+                                <td
+                                    mat-cell
+                                    class="px-2 text-center"
+                                    *matCellDef="let element"
+                                >
+                                    {{ element?.type || element?.ServiceType }}
+                                </td>
+                            </ng-container>
+
+                            <!-- Company Details Column -->
+                            <ng-container matColumnDef="companyDetails">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font-weight-bold px-2"
+                                >
+                                    Company Details
+                                </th>
+                                <td
+                                    mat-cell
+                                    class="px-2 left-align"
+                                    *matCellDef="let element"
+                                >
+                                    {{ element?.CompanyName }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Address">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font-weight-bold px-2"
+                                >
+                                    Address
+                                </th>
+                                <td
+                                    mat-cell
+                                    class="px-2 left-align"
+                                    *matCellDef="let element"
+                                >
+                                    {{
+                                        element?.Address +
+                                            ', ' +
+                                            element?.City +
+                                            ', ' +
+                                            element?.State
+                                    }}
+                                </td>
+                            </ng-container>
+
+                            <!-- Miles Column
+                  <ng-container matColumnDef="miles">
+                      <th
+                          mat-header-cell
+                          *matHeaderCellDef
+                          class="font-weight-bold px-2"
+                      >
+                          {{ country == 'USA' ? 'Miles' : 'Km' }}
+                      </th>
+                      <td
+                          mat-cell
+                          class="px-2 text-center"
+                          *matCellDef="let element"
+                      >
+                          {{ element?.DistanceTravelled || '0' }}
+                      </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="time">
+                      <th
+                          mat-header-cell
+                          *matHeaderCellDef
+                          class="font-weight-bold px-2"
+                      >
+                          Service Time
+                      </th>
+                      <td
+                          mat-cell
+                          class="px-2 text-center"
+                          *matCellDef="let element"
+                      >
+                          {{ element.ServiceTime }}
+                      </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="select">
+                      <th
+                          mat-header-cell
+                          *matHeaderCellDef
+                          class="font-weight-bold px-2"
+                      >
+                          Completed
+                      </th>
+                      <td
+                          mat-cell
+                          class="px-2 text-center"
+                          *matCellDef="
+                              let element;
+                              let selectIn = index
+                          "
+                      >
+                          <mat-checkbox
+                              (change)="
+                                  selectedCode(
+                                      $event,
+                                      element,
+                                      mainI,
+                                      selectIn
+                                  )
+                              "
+                              [checked]="element?.completedStops"
+                              [disabled]="isEnabled"
+                              color="primary"
+                              class="example-margin"
+                          ></mat-checkbox>
+                      </td>
+                  </ng-container> -->
+
+                            <tr
+                                mat-header-row
+                                *matHeaderRowDef="
+                                    displayedColumns;
+                                    sticky: true
+                                "
+                            ></tr>
+                            <tr
+                                mat-row
+                                *matRowDef="let row; columns: displayedColumns"
+                            ></tr>
+                        </table>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div class="google-maps" *ngIf="apiLoaded">
+        <google-map
+            #myGoogleMap
+            height="400px"
+            width="100%"
+            [zoom]="zoom"
+            [center]="center"
+            [options]="options"
+        >
+            <map-marker
+                style="margin-top: 10px"
+                #markerElem="mapMarker"
+                *ngFor="let marker of markers"
+                [position]="marker.position"
+                [label]="marker.label"
+                [title]="marker.title"
+                [options]="marker.options"
+                [icon]="marker.icon"
+            >
+            </map-marker>
+            <map-polyline
+                [path]="vertices"
+                [options]="polylineOptions"
+            ></map-polyline>
+        </google-map>
+    </div>
+
+    <div class="grid-layout2">
+        <div
+            class="collapse_table"
+            *ngIf="dataSource2.length > 0"
+            style="width: 100%"
+        >
+            <ng-container *ngFor="let shipment of dataSource2; let i = index">
+                <span class="table-title">{{
+                    isTimeWindow
+                        ? 'Shipment Details Driver ' + (i + 1)
+                        : 'Shipment Details'
+                }}</span>
+                <div class="table-content">
+                    <ng-container *ngIf="dataSource2.length > 0">
+                        <table
+                            mat-table
+                            [dataSource]="dataSource2[i]"
+                            class="mat-elevation-z8 box_shad"
+                        >
+                            <!--- Note that these columns can be defined in any order.
+The actual rendered columns are set as a property on the row definition" -->
+
+                            <!-- Stop Column -->
+                            <ng-container matColumnDef="Jobs#">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font-weight-bold px-2"
+                                >
+                                    Job#
+                                </th>
+                                <td
+                                    mat-cell
+                                    class="px-2 text-center"
+                                    *matCellDef="let element"
+                                >
+                                    {{ element?.JobNo }}
+                                </td>
+                            </ng-container>
+
+                            <!-- Stop Column -->
+                            <ng-container
+                                matColumnDef="SuggestedPickupStopNumber"
+                            >
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font-weight-bold text-center px-2"
+                                >
+                                    Suggested Pickup Stop
+                                </th>
+                                <td
+                                    mat-cell
+                                    class="px-2 text-center"
+                                    *matCellDef="let element"
+                                >
+                                    {{ element?.SuggestedPickupStop }}
+                                </td>
+                            </ng-container>
+
+                            <!-- Type Column -->
+                            <ng-container
+                                matColumnDef="SuggestedPickupDeliveryNumber"
+                            >
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font-weight-bold text-center px-2"
+                                >
+                                    Suggested Delivery Stop
+                                </th>
+                                <td
+                                    mat-cell
+                                    class="px-2 text-center"
+                                    *matCellDef="let element"
+                                >
+                                    {{ element?.SuggestedDeliveryStop }}
+                                </td>
+                            </ng-container>
+                            <!-- connect Column -->
+                            <ng-container matColumnDef="PickupCompany">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font-weight-bold px-2"
+                                >
+                                    Pickup Company
+                                </th>
+                                <td
+                                    mat-cell
+                                    class="px-2 left-align"
+                                    *matCellDef="let element"
+                                >
+                                    {{ element?.PickupCompany }}
+                                </td>
+                            </ng-container>
+
+                            <!-- Company Details Column -->
+                            <ng-container matColumnDef="PickupAddress">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font-weight-bold px-2"
+                                >
+                                    Pickup Address
+                                </th>
+                                <td
+                                    mat-cell
+                                    class="px-2 left-align"
+                                    *matCellDef="let element"
+                                >
+                                    {{
+                                        element?.PickupAddress +
+                                            ', ' +
+                                            element?.PickupCity +
+                                            ', ' +
+                                            element?.PickupState
+                                    }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="DeliveryCompany">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font-weight-bold px-2"
+                                >
+                                    Delivery Company
+                                </th>
+                                <td
+                                    mat-cell
+                                    class="px-2 left-align"
+                                    *matCellDef="let element"
+                                >
+                                    {{ element?.DeliveryCompany }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="DeliveryAddress">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font-weight-bold px-2"
+                                >
+                                    Delivery Address
+                                </th>
+                                <td
+                                    mat-cell
+                                    class="px-2 left-align"
+                                    *matCellDef="let element"
+                                >
+                                    {{
+                                        element?.DeliveryAddress +
+                                            ', ' +
+                                            element?.DeliveryCity +
+                                            ', ' +
+                                            element?.DeliveryState
+                                    }}
+                                </td>
+                            </ng-container>
+
+                            <tr
+                                mat-header-row
+                                *matHeaderRowDef="
+                                    displayedColumns2;
+                                    sticky: true
+                                "
+                            ></tr>
+                            <tr
+                                mat-row
+                                *matRowDef="let row; columns: displayedColumns2"
+                            ></tr>
+                        </table>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

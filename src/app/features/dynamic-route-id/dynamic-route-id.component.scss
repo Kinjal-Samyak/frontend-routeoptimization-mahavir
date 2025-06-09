@@ -1,0 +1,117 @@
+.file-uploader {
+    input[type='file']::file-selector-button {
+        margin-right: 20px;
+        border: none;
+        background: #084cdf;
+        padding: 10px 20px;
+        border-radius: 10px;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.2s ease-in-out;
+    }
+
+    input[type='file']::file-selector-button:hover {
+        background: #0d45a5;
+    }
+    .form-control {
+        height: auto;
+        border-radius: 10px;
+        width: 25%;
+        padding: 0;
+    }
+    display: flex;
+    align-items: center;
+    button {
+        background: transparent linear-gradient(90deg, #5d2381 0%, #a11944 100%)
+            0% 0% no-repeat padding-box;
+        height: 40px;
+    }
+    .action-btn {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 10px;
+        width: 195px;
+    }
+}
+.error-msg {
+    color: red;
+    padding: 1rem;
+}
+
+.mat-table {
+    width: 100%;
+}
+
+.mat-accordion .mat-expansion-panel {
+    width: 97%;
+}
+
+.justify-content-between {
+    align-items: center;
+}
+
+.mat-opt {
+    display: flex;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    .mat-radio-button {
+        margin-right: 16px;
+    }
+}
+
+.acount-num {
+    display: flex;
+}
+
+.csv-section {
+    .dropdown-market {
+        margin-left: 16px;
+    }
+    .mat-select {
+        padding: 5px;
+    }
+}
+
+.datetime-section {
+    align-items: center;
+}
+.option1_btn {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.add-stop {
+    .custom-file-input {
+        opacity: 1;
+        height: auto;
+    }
+}
+.mat-form-field-infix {
+    display: flex;
+}
+.table-content {
+    max-height: 403px;
+    padding: 0 16px;
+    overflow: auto;
+    background: aliceblue;
+}
+.google-maps {
+    width: 40%;
+}
+.grid-layout {
+    width: 60%;
+}
+.mat-header-row {
+    background: #fff;
+    border: 1px solid #ddd;
+}
+.grid-layout2 {
+    margin-top: 32px;
+    display: flex;
+    width: 100%;
+}
+.table-title {
+    padding: 10px 16px;
+    display: block;
+}

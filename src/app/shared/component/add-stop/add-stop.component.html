@@ -1,0 +1,215 @@
+<div class="row no-gutters" style="display: block">
+    <form
+        (ngSubmit)="onSubmit()"
+        style="height: 419px; overflow: auto"
+        class="form"
+        [formGroup]="reactiveForm"
+    >
+        <div class="col left-side">
+            <h2>Pickup Address</h2>
+            <div class="from-control">
+                <mat-label class="lable pop_font">Stop : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input class="" matInput formControlName="stop" type="text" />
+                    <mat-error class="mat-error"
+                        *ngIf="reactiveForm.get('stop')?.hasError('required')"
+                    >
+                        stop is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-control">
+                <mat-label class="lable pop_font">Company Name : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="companyName" type="text" />
+                    <mat-error class="mat-error"
+                        *ngIf="
+                            reactiveForm
+                                .get('companyName')
+                                ?.hasError('required')
+                        "
+                    >
+                        Company Name is required
+                    </mat-error>
+                </mat-form-field>
+                
+            </div>
+            <div class="from-control">
+                <mat-label class="lable pop_font">Address Line1 : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input
+                        matInput
+                        formControlName="addressLine1"
+                        type="text"
+                    />
+                    <mat-error
+                        *ngIf="
+                            reactiveForm
+                                .get('addressLine1')
+                                ?.hasError('required')
+                        "
+                    >
+                        Address is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="from-control">
+                <mat-label class="lable pop_font"> City : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="city" type="text" />
+                    <mat-error
+                        *ngIf="reactiveForm.get('city')?.hasError('required')"
+                    >
+                        City is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="from-control">
+                <mat-label class="lable pop_font">State : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="state" type="text" />
+                    <mat-error
+                        *ngIf="reactiveForm.get('state')?.hasError('required')"
+                    >
+                        State is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="from-control">
+                <mat-label class="lable pop_font">Zip : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="zip" type="text" />
+                    <mat-error
+                        *ngIf="reactiveForm.get('zip')?.hasError('required')"
+                    >
+                        Zip is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="from-control">
+                <mat-label class="lable pop_font">Country : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="country" type="text" />
+                    <mat-error
+                        *ngIf="
+                            reactiveForm.get('country')?.hasError('required')
+                        "
+                    >
+                        Country is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col right-side">
+            <h2>Delivery Address</h2>
+            <div class="from-control">
+                <mat-label class="lable pop_font">Stop : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="stop2" type="text" />
+                    <mat-error
+                        *ngIf="reactiveForm.get('stop2')?.hasError('required')"
+                    >
+                        stop is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="from-control">
+                <mat-label class="lable pop_font">Company Name : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input
+                        matInput
+                        formControlName="companyName2"
+                        type="text"
+                    />
+                    <mat-error
+                        *ngIf="
+                            reactiveForm
+                                .get('companyName2')
+                                ?.hasError('required')
+                        "
+                    >
+                        Company Name is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="from-control">
+                <mat-label class="lable pop_font">Address Line1 : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input
+                        matInput
+                        formControlName="addressLine12"
+                        type="text"
+                    />
+                    <mat-error
+                        *ngIf="
+                            reactiveForm
+                                .get('addressLine12')
+                                ?.hasError('required')
+                        "
+                    >
+                        Address is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="from-control">
+                <mat-label class="lable pop_font"> City : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="city2" type="text" />
+                    <mat-error
+                        *ngIf="reactiveForm.get('city2')?.hasError('required')"
+                    >
+                        City is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="from-control">
+                <mat-label class="lable pop_font">State : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="state2" type="text" />
+                    <mat-error
+                        *ngIf="reactiveForm.get('state2')?.hasError('required')"
+                    >
+                        State is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="from-control">
+                <mat-label class="lable pop_font">Zip : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="zip2" type="text" />
+                    <mat-error
+                        *ngIf="reactiveForm.get('zip2')?.hasError('required')"
+                    >
+                        Zip is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="from-control">
+                <mat-label class="lable pop_font">Country : </mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="country2" type="text" />
+                    <mat-error
+                        *ngIf="
+                            reactiveForm.get('country2')?.hasError('required')
+                        "
+                    >
+                        Country is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+    <div mat-dialog-actions class="action-btn">
+        <button (click)="onSubmit()" mat-button class="Common_btn mr-1">
+            Save
+        </button>
+        <button
+            mat-button
+            mat-dialog-close
+            (click)="onNoClick()"
+            class="Common_btn ml5"
+        >
+            Cancel
+        </button>
+    </div>
+</div>

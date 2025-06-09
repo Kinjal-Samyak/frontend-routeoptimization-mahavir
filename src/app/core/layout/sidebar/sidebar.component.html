@@ -1,0 +1,149 @@
+<div class="left-side-bar bg_sidebar">
+    <nav class="navbar navbar-expand-lg navbar-light pad_0_all">
+        <div
+            class="collapse navbar-collapse menu-item"
+            id="navbarSupportedContent"
+        >
+            <ul class="navbar-nav">
+                <li class="companylogo-main-2 bg_aliceblue">
+                    <button routerLink="/home">
+                        <img
+                            src="../../assets/images/side_logo.svg"
+                            class="img-fluid"
+                            id="clkusermenuhomepage"
+                        />
+                    </button>
+                </li>
+
+                <ng-container *ngFor="let route of routeInformation">
+                    <a
+                        (click)="routeToPages(route.name)"
+                        routerLink="{{ route.urls }}"
+                        ><li
+                            class="companylogo-main"
+                            [ngStyle]="{
+                                'background-color': route.clicked
+                                    ? '#ffffff'
+                                    : ''
+                            }"
+                        >
+                            <button [matTooltip]="route.name">
+                                <ng-container
+                                    *ngIf="route.name === 'Project Management'"
+                                >
+                                    <img
+                                        src="../../assets/images/side_icon1_white.svg"
+                                        class="mar_left_1"
+                                        id="clkusermenuhomepage"
+                                        *ngIf="!route.clicked"
+                                    />
+                                    <img
+                                        src="../../assets/images/side_icon1.svg"
+                                        *ngIf="route.clicked"
+                                        class="mar_left_1"
+                                        id=""
+                                    />
+                                </ng-container>
+                                <!-- <ng-container
+                                    *ngIf="route.name === 'Live Tracking'"
+                                >
+                                    <img
+                                        src="../../assets/images/live_tracking_white.svg"
+                                        class="mar_left_1"
+                                        id="clkusermenuhomepage"
+                                        *ngIf="!route.clicked"
+                                    />
+                                    <img
+                                        src="../../assets/images/live_tracking.svg"
+                                        class="mar_left_1"
+                                        id=""
+                                        *ngIf="route.clicked"
+                                    />
+                                </ng-container> -->
+                                <!-- <ng-container
+                                    *ngIf="
+                                        route.name ===
+                                        'Stops (Delivery) Management'
+                                    "
+                                    ><img
+                                        src="../../assets/images/side_icon2_white.svg"
+                                        class="mar_left_1"
+                                        id="clkusermenuhomepage"
+                                        *ngIf="!route.clicked"
+                                    />
+                                    <img
+                                        src="../../assets/images/placeholdericon.svg"
+                                        *ngIf="route.clicked"
+                                        class="mar_left_1"
+                                        id=""
+                                    />
+                                </ng-container>
+
+
+                                <ng-container
+                                    *ngIf="route.name === 'Suggested Route'"
+                                >
+                                    <img
+                                        src="../../assets/images/side_icon3_white.svg"
+                                        class="mar_left_1"
+                                        id="clkusermenuhomepage"
+                                        *ngIf="!route.clicked"
+                                    />
+                                    <img
+                                        src="../../assets/images/side_icon3.svg"
+                                        class="mar_left_1"
+                                        *ngIf="route.clicked"
+                                        id=""
+                                    />
+                                </ng-container>
+                                <ng-container *ngIf="route.name === 'History'">
+                                    <img
+                                        src="../../assets/images/side_icon4_white.svg"
+                                        class="mar_left_1"
+                                        id="clkusermenuhomepage"
+                                        *ngIf="!route.clicked"
+                                    />
+                                    <img
+                                        src="../../assets/images/side_icon4.svg"
+                                        class="mar_left_1"
+                                        id=""
+                                        *ngIf="route.clicked"
+                                    />
+                                </ng-container>
+                                <ng-container
+                                    *ngIf="route.name === 'To Do List'"
+                                >
+                                    <img
+                                        src="../../assets/images/side_icon5_white.svg"
+                                        class="img-fluid mar_left_1"
+                                        *ngIf="!route.clicked"
+                                        id="clkusermenuhomepage"
+                                    />
+                                    <img
+                                        src="../../assets/images/side_icon4.svg"
+                                        class="mar_left_1"
+                                        *ngIf="route.clicked"
+                                        id=""
+                                    />
+                                </ng-container>
+
+                                -->
+                            </button>
+                        </li>
+                    </a>
+                </ng-container>
+            </ul>
+        </div>
+    </nav>
+
+    <span class="logout_img">
+        <img
+            src="../../assets/images/logout.png"
+            class="mar_left_1"
+            matTooltip="Logout"
+            style="cursor: pointer"
+            id="clkusermenuhomepage"
+            (click)="logOut()"
+        />
+    </span>
+</div>

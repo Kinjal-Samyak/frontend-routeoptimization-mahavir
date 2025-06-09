@@ -1,0 +1,15 @@
+.chip {
+    background-color: transparent;
+}
+
+.table-container {
+    height: calc(100vh - 192px);
+    overflow: auto;
+    position: relative;
+}
+.mat-paginator-sticky {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+}

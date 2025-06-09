@@ -1,0 +1,35 @@
+<div class="col-12 documents">
+    <div class="heading">
+        <h2 class="mb-1 deliverydoc">Delivery Documents</h2>
+    </div>
+    <div class="d-flex list-document" *ngIf="documentDetails.length > 0">
+        <ng-container *ngFor="let document of documentDetails[0]">
+            <div class="d-flex document-details">
+                <img
+                    src="../../../../assets/images/pdf.svg"
+                    alt="pdf"
+                    title="pdf"
+                />
+                <span class="d-flex details flex-column">
+                    <!-- <span class="pdf_label">Jenny watson</span> -->
+                    <span
+                        class="pdf_label"
+                        [matTooltip]="document.systemFileName"
+                        matTooltipClass="doc-class"
+                        >{{ document.systemFileName }}</span
+                    >
+                </span>
+                <!-- <mat-icon>download</mat-icon> -->
+                <mat-icon class="download-icon" (click)="downloadFile(document)"
+                    >file_download</mat-icon
+                >
+            </div>
+        </ng-container>
+    </div>
+    <div
+        class="d-flex list-document m-3 justify-content-center"
+        *ngIf="documentDetails.length === 0"
+    >
+        <span>No Record Found</span>
+    </div>
+</div>

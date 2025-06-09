@@ -1,0 +1,46 @@
+.documents {
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    height: 380px;
+    overflow: hidden;
+}
+
+.heading {
+    border-bottom: solid 1px #0000001a;
+    padding-top: 5px;
+}
+
+.document-details {
+    margin: 16px 14px;
+    height: 51.11px;
+    padding: 6px 14px;
+    border: 1.36px solid #e6e6e6;
+    border-radius: 10px;
+    width: 196.5px;
+    align-items: center;
+    .details {
+        margin-left: 26px;
+        width: 83px;
+
+        .pdf_label {
+            white-space: nowrap; /* Prevent text from wrapping to the next line */
+            overflow: hidden; /* Hide any overflowing content */
+            text-overflow: ellipsis; /* Display an ellipsis (...) for overflowed text */
+            display: inline-block; /* Make sure the span respects its width */
+            max-width: 100%; /* Limit the width of the span */
+        }
+    }
+
+    .download-icon {
+        margin-left: auto;
+        cursor: pointer;
+        color: #545454;
+    }
+    :hover.download-icon {
+        color: black;
+    }
+}
+.list-document {
+    overflow: auto;
+    // height: 100%;
+}

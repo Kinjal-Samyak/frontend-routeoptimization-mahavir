@@ -1,0 +1,11 @@
+.left-side,
+.right-side {
+    width: 100%;
+}
+.form {
+    display: flex;
+}
+.action-btn {
+    justify-content: flex-end;
+    display: flex;
+}

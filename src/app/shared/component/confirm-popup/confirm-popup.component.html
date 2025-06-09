@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-12 pad_0_over">
+        <div class="bg_clr_pop">
+            <div class="d-flex justify-content-between pad_pop">
+                <h1 class="mb-0 font_18">{{ title }}</h1>
+                <img
+                    (click)="OnNo()"
+                    src="../../../../assets/images/cross_icon.svg"
+                    alt=""
+                    style="cursor: pointer"
+                    class="width_18"
+                />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label style="padding: 20px 12px">{{ message }}</label>
+            </div>
+            <div class="mb-0">
+                <div class="d-flex pad_pop justify-content-end">
+                    <button
+                        mat-button
+                        class="Common_btn mr-1"
+                        (click)="OnYes()"
+                    >
+                        {{ btn1 }}
+                    </button>
+                    <button mat-button (click)="OnNo()" class="Common_btn ml5">
+                        {{ btn2 }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

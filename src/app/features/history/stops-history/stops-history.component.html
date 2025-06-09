@@ -1,0 +1,86 @@
+<div class="history-table">
+    <mat-table [dataSource]="dataSource" class="table-container" matSort>
+        <ng-container matColumnDef="no">
+            <mat-header-cell *matHeaderCellDef class="font_clr custm_wd">
+                No.
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row; let i = index" class="custm_wd">
+                {{ i + 1 }}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="stop">
+            <mat-header-cell *matHeaderCellDef class="font_clr min_w_12">
+                Stop Reference
+            </mat-header-cell>
+            <mat-cell
+                *matCellDef="let row"
+                matTooltipPosition="above"
+                class="min_w_12"
+            >
+                {{ row.routeStopDetailId.toString() }}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef class="font_clr min_w_16">
+                Name
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" class="min_w_16">
+                {{ row.name }}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="contact">
+            <mat-header-cell *matHeaderCellDef class="font_clr custm_wd_10">
+                Contact No.
+            </mat-header-cell>
+            <mat-cell
+                *matCellDef="let row"
+                [style.color]="row.email"
+                class="custm_wd_10"
+            >
+                {{ row?.contactNo || '-' }}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="adress">
+            <mat-header-cell *matHeaderCellDef class="font_clr min_w_16"
+                >Address</mat-header-cell
+            >
+            <mat-cell
+                *matCellDef="let element"
+                class="min_w_16"
+                [matTooltip]="element.address"
+            >
+                {{
+                    element.address +
+                        ' ' +
+                        element.city +
+                        ' ' +
+                        element.state +
+                        ' ' +
+                        element.countryId
+                }}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="arival">
+            <mat-header-cell *matHeaderCellDef class="font_clr min_w_12"
+                >Arival Time</mat-header-cell
+            >
+            <mat-cell *matCellDef="let element" class="min_w_12">
+                {{ element?.actVisitDatetime || '-' }}
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+        ></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"> </mat-row>
+        <div style="text-align: center; margin: 20px" *matNoDataRow>
+            No Record Found
+        </div>
+    </mat-table>
+    <mat-paginator
+        class="mat-paginator-sticky"
+        [pageSizeOptions]="[25, 50, 75, 100]"
+    ></mat-paginator>
+</div>

@@ -1,0 +1,588 @@
+<div class="d-flex">
+    <div class="grid-layout width_half">
+        <div class="mat-select pb-4">
+            <form
+                [formGroup]="reactiveForm"
+                (ngSubmit)="onSubmit()"
+                class="login-form"
+            >
+                <!-- select options -->
+
+                <div class="mat-opt">
+                    <mat-radio-group aria-label="Select an option">
+                        <mat-radio-button
+                            color="primary"
+                            style="color: #928a8a; font-weight: 500"
+                            value="1"
+                            (change)="selectedValue($event)"
+                            [checked]="selectedOption === '1'"
+                            >Option-1</mat-radio-button
+                        >
+                        <mat-radio-button
+                            color="primary"
+                            style="color: #928a8a; font-weight: 500"
+                            value="2"
+                            [checked]="selectedOption === '2'"
+                            (change)="selectedValue($event)"
+                            >Option-2</mat-radio-button
+                        >
+                    </mat-radio-group>
+                </div>
+
+                <div class="d-flex csv-section" *ngIf="selectedOption === '1'">
+                    <div class="example-container driver_cust">
+                        <mat-label class="lable pop_font"
+                            >Account no :</mat-label
+                        >
+                        <mat-form-field appearance="outline">
+                            <input
+                                matInput
+                                placeholder="xxx876"
+                                formControlName="accountNo"
+                                class="pad_botup_5"
+                            />
+
+                            <mat-error
+                                *ngIf="errorHandling('accountNo', 'required')"
+                                >Please enter value</mat-error
+                            >
+                        </mat-form-field>
+                    </div>
+                    <div class="dropdown-market">
+                        <mat-label class="lable pop_font"
+                            >Market Place :</mat-label
+                        >
+                        <mat-form-field appearance="outline">
+                            <mat-select
+                                formControlName="marketPlace"
+                                (valueChange)="placeChanges($event)"
+                                required
+                            >
+                                <mat-option
+                                    *ngFor="let place of marketPlace"
+                                    [value]="place.BranchName"
+                                >
+                                    {{ place.BranchName }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="errorHandling('marketPlace', 'required')"
+                                >Please choose a place</mat-error
+                            >
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Date time picker from date to date -->
+                <div
+                    class="d-flex datetime-section"
+                    *ngIf="selectedOption === '1'"
+                >
+                    <div class="dropdown-market">
+                        <mat-label class="lable pop_font">From :</mat-label>
+                        <mat-form-field appearance="outline">
+                            <input
+                                matInput
+                                [ngxMatDatetimePicker]="picker1"
+                                placeholder="Choose a date"
+                                formControlName="dateControl"
+                                (dateChange)="dateChanged($event)"
+                            />
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="$any(picker1)"
+                            ></mat-datepicker-toggle>
+                            <ngx-mat-datetime-picker
+                                #picker1
+                                [showSpinners]="showSpinners"
+                                [showSeconds]="showSeconds"
+                                [stepHour]="stepHour"
+                                [stepMinute]="stepMinute"
+                                [stepSecond]="stepSecond"
+                                [touchUi]="touchUi"
+                                [color]="color"
+                                [enableMeridian]="enableMeridian"
+                                [disableMinute]="disableMinute"
+                            >
+                            </ngx-mat-datetime-picker>
+                        </mat-form-field>
+                    </div>
+                    <div class="dropdown-market" style="margin-left: 16px">
+                        <mat-label class="lable pop_font">To :</mat-label>
+                        <mat-form-field appearance="outline">
+                            <input
+                                matInput
+                                [ngxMatDatetimePicker]="picker"
+                                placeholder="Choose a date"
+                                formControlName="dateControl1"
+                                [min]="reactiveForm.get('dateControl')?.value"
+                                [max]="maxDate"
+                                [disabled]="
+                                    reactiveForm.get('dateControl')?.value ===
+                                    ''
+                                        ? true
+                                        : false
+                                "
+                                (dateChange)="toDateChanged($event)"
+                            />
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="$any(picker)"
+                            ></mat-datepicker-toggle>
+                            <ngx-mat-datetime-picker
+                                #picker
+                                [showSpinners]="showSpinners"
+                                [showSeconds]="showSeconds"
+                                [stepHour]="stepHour"
+                                [stepMinute]="stepMinute"
+                                [stepSecond]="stepSecond"
+                                [touchUi]="touchUi"
+                                [color]="color"
+                                [enableMeridian]="enableMeridian"
+                                [disableMinute]="disableMinute"
+                                [hideTime]="hideTime"
+                            >
+                            </ngx-mat-datetime-picker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div
+                    class="d-flex datetime-section"
+                    *ngIf="selectedOption === '1'"
+                >
+                    <button
+                        mat-button
+                        class="Common_btn_route option1_btn mr-3"
+                        (click)="getJsonvData1()"
+                    >
+                        Get Route 1
+                    </button>
+                    <button
+                        mat-button
+                        class="Common_btn_route option1_btn mr-3"
+                        (click)="getJsonvData2()"
+                    >
+                        Get Route 2
+                    </button>
+                    <button
+                        mat-button
+                        class="Common_btn_route option1_btn mr-3"
+                        (click)="getAllJsonData()"
+                    >
+                        Get All Route
+                    </button>
+                    <!-- <button
+                        mat-button
+                        class="Common_btn_route option1_btn mr-3"
+                        (click)="getCsvData()"
+                    >
+                        Optimize
+                    </button> -->
+                </div>
+                <!-- Date picker functionality end -->
+
+                <div
+                    class="file-uploader justify-content-between input_cust"
+                    *ngIf="selectedOption === '2'"
+                >
+                    <input
+                        class="form-control font_13"
+                        #inputFile
+                        formControlName="fileUpload"
+                        type="file"
+                        accept=".json"
+                        (change)="onChange($event)"
+                    />
+
+                    <div mat-dialog-actions class="mb-0 mr-3">
+                        <div class="d-flex">
+                            <button mat-button class="Common_btn_route mr-3">
+                                Optimize
+                            </button>
+                            <button
+                                mat-button
+                                mat-dialog-close
+                                (click)="cancelForm()"
+                                class="Common_btn_route"
+                            >
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-msg" *ngIf="errorMessage">
+                    <p *ngIf="errorHandling('fileUpload', 'required')">
+                        {{ errorMessage }}
+                    </p>
+                </div>
+            </form>
+        </div>
+        <div
+            class="d-flex justify-content-between"
+            *ngIf="selectedOption === '2'"
+        >
+            <div class="example-container driver_cust">
+                <mat-label class="lable pop_font">No. of drivers :</mat-label>
+                <mat-form-field appearance="outline">
+                    <input
+                        matInput
+                        placeholder="No. of drivers"
+                        [formControl]="email"
+                        required
+                        class="pad_botup_5"
+                    />
+                </mat-form-field>
+            </div>
+            <input
+                type="file"
+                accept=".json"
+                style="display: none"
+                [formControl]="addStopUpload"
+                (change)="onFileChange($event)"
+                [multiple]="true"
+                #file
+            />
+            <button
+                class="mr-4"
+                mat-raised-button
+                (click)="file.click()"
+                style="height: 40px"
+            >
+                <img
+                    src="../../../../assets/images/add_icon.svg"
+                    alt=""
+                    width="25px"
+                />
+                Add Stops
+            </button>
+        </div>
+
+        <div class="collapse_table">
+            <mat-accordion *ngIf="numOfDriver.length > 0">
+                <ng-container *ngFor="let driver of numOfDriver; let i = index">
+                    <mat-expansion-panel
+                        (opened)="panelOpenState = true"
+                        (closed)="panelOpenState = false"
+                    >
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="font-weight-bold">
+                                Driver {{ i + 1 }}</mat-panel-title
+                            >
+                            <mat-panel-description></mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ng-container *ngIf="dataSource.length > 0">
+                            <table
+                                mat-table
+                                [dataSource]="dataSource[i]"
+                                class="mat-elevation-z8 box_shad"
+                            >
+                                <!--- Note that these columns can be defined in any order.
+                             The actual rendered columns are set as a property on the row definition" -->
+
+                                <!-- Stop Column -->
+                                <ng-container matColumnDef="stop">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Stop
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element.CustomerCode }}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Type Column -->
+                                <ng-container matColumnDef="type">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Type
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{
+                                            element?.type ||
+                                                element?.ServiceType
+                                        }}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Company Details Column -->
+                                <ng-container matColumnDef="companyDetails">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Company Details
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element.CompanyName }}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Miles Column -->
+                                <ng-container matColumnDef="miles">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        {{ country == 'USA' ? 'Miles' : 'Km' }}
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element?.DistanceTravelled || '0' }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="time">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Service Time
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element.ServiceTime }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="select">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Completed
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element; let i = index"
+                                    >
+                                        <mat-checkbox
+                                            [disabled]="isEnabled"
+                                            [checked]="
+                                                stopDetailsObj?.CompletedPoints[
+                                                    i
+                                                ]
+                                                    ? true
+                                                    : false
+                                            "
+                                            (change)="
+                                                selectedData(
+                                                    $event,
+                                                    element.CustomerCode,
+                                                    i
+                                                )
+                                            "
+                                            color="primary"
+                                            class="example-margin"
+                                        ></mat-checkbox>
+                                    </td>
+                                </ng-container>
+
+                                <tr
+                                    mat-header-row
+                                    *matHeaderRowDef="
+                                        displayedColumns;
+                                        sticky: true
+                                    "
+                                ></tr>
+                                <tr
+                                    mat-row
+                                    *matRowDef="
+                                        let row;
+                                        columns: displayedColumns
+                                    "
+                                ></tr>
+                            </table>
+                        </ng-container>
+                    </mat-expansion-panel>
+                </ng-container>
+            </mat-accordion>
+
+            <ng-container *ngIf="dataSource2.length > 0">
+                <div class="" style="padding-right: 16px">
+                    <table
+                        mat-table
+                        [dataSource]="dataSource2"
+                        class="mat-elevation-z8 box_shad"
+                        style="margin-top: 16px"
+                    >
+                        <!--- Note that these columns can be defined in any order.
+         The actual rendered columns are set as a property on the row definition" -->
+
+                        <!-- driver Column -->
+                        <ng-container matColumnDef="Driver">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                Driver
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="let element"
+                            >
+                                {{ element.driver + 1 }}
+                            </td>
+                        </ng-container>
+                        <!-- Type Column -->
+                        <ng-container matColumnDef="TotalDeliveryTime">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                Total Delivery Time
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="let element"
+                            >
+                                {{ element?.TotalDeliveryTime }}
+                            </td>
+                        </ng-container>
+
+                        <!-- Type Column -->
+                        <ng-container matColumnDef="TotalDistanceTravelled">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                Total Distance Travelled
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="let element"
+                            >
+                                {{ element?.TotalDistanceTravelled }}
+                            </td>
+                        </ng-container>
+
+                        <!-- Company Details Column -->
+                        <ng-container matColumnDef="TotalServiceTime">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                Total Service Time
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="let element"
+                            >
+                                {{ element.TotalServiceTime }}
+                            </td>
+                        </ng-container>
+
+                        <!-- Miles Column -->
+                        <ng-container matColumnDef="TotalTravelTime">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                Total Travel Time
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="let element"
+                            >
+                                {{ element?.TotalTravelTime }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="select">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                Select
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="let element; let i = index"
+                            >
+                                <mat-checkbox
+                                    color="primary"
+                                    (change)="addStopCheck(element)"
+                                    class="example-margin"
+                                ></mat-checkbox>
+                            </td>
+                        </ng-container>
+
+                        <tr
+                            mat-header-row
+                            *matHeaderRowDef="displayedColumns2"
+                        ></tr>
+                        <tr
+                            mat-row
+                            *matRowDef="let row; columns: displayedColumns2"
+                        ></tr>
+                    </table>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="google-maps width_half" *ngIf="apiLoaded">
+        <google-map
+            #myGoogleMap
+            height="550px"
+            width="100%"
+            [zoom]="zoom"
+            [center]="center"
+            [options]="options"
+        >
+            <map-marker
+                style="margin-top: 10px"
+                #markerElem="mapMarker"
+                *ngFor="let marker of markers"
+                [position]="marker.position"
+                [label]="marker.label"
+                [title]="marker.title"
+                [options]="marker.options"
+                [icon]="marker.icon"
+            >
+            </map-marker>
+            <map-polyline [path]="vertices"></map-polyline>
+        </google-map>
+    </div>
+</div>

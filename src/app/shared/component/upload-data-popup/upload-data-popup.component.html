@@ -1,0 +1,78 @@
+<div class="container fileUploadWrapper mar_0_all pad_0_all">
+    <form [formGroup]="form">
+        <div class="row">
+            <div class="col-md-12 pad_0_all">
+                <div class="row title">
+                    <div class="col-md-8">
+                        <h2 class="mb-0 mar_top_5 font_15">Upload Files</h2>
+                    </div>
+                    <div class="col-md-4 text-right pr5">
+                        <button
+                            mat-icon-button
+                            color="primary"
+                            (click)="onNoClick()"
+                        >
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="ErrorMsg">
+                <div class="alert alert-danger alert-dismissible">
+                    <a class="close" (click)="cancle()">&times;</a>
+                    {{ ErrorMsg }}
+                </div>
+            </div>
+            <div class="col-md-12 upload_content">
+                <div
+                    class="border_dash padding20"
+                    appDragDropFileUpload
+                    (click)="fileField.click()"
+                ><img class="Upload_img" src="../../../../assets/images/upload_image.svg">
+                    <p class="ddinfo font_17">
+                        Drag and Drop File or <span>Browse</span>
+                    </p>
+                    <input
+                        type="file"
+                        formControlName="file"
+                        #fileField
+                        (change)="upload($event)"
+                        hidden
+                        accept=".csv"
+                    />
+                </div>
+            </div>
+            <div class="col-md-12 p-1">
+                <mat-card
+                    *ngFor="let file of selectedFiles"
+                    class="example-card p-0"
+                >
+                    <mat-card-title class="pl-3 pt-2">{{
+                        file.name
+                    }}</mat-card-title>
+                    <mat-card-subtitle class="pl-3 m-0">{{
+                        size + 'KB / ' + size + 'KB'
+                    }}</mat-card-subtitle>
+                    <mat-icon class="mat-icon-rtl-mirror"></mat-icon>
+                </mat-card>
+            </div>
+            <div class="col-md-12 mb-4">
+                <button
+                    mat-button
+                    class="Common_btn mr-2"
+                    (click)="emmitData()"
+                >
+                    Save
+                </button>
+                <button
+                    mat-button
+                    mat-dialog-close
+                    (click)="onNoClick()"
+                    class="Common_btn ml5"
+                >
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

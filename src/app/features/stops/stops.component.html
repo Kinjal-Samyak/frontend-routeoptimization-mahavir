@@ -1,0 +1,514 @@
+<div class="section-view">
+  <div class="row">
+    <div class="col-md-12 d-flex pad_lr_0 justify-content-between mt8">
+      <div class="mat-form">
+        <mat-form-field appearance="outline" class="matform">
+          <mat-select
+            style="display: flex; align-items: center; height: 40px"
+            [(ngModel)]="selectedProjectData"
+            (selectionChange)="onProjectChange(selectedProjectData)"
+          >
+            <mat-option value="newProject">Create New Project</mat-option>
+            <mat-option
+              [value]="project.name"
+              *ngFor="let project of projectList"
+              >{{ project.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field
+          *ngIf="showInput"
+          appearance="outline"
+          class="matform ml10"
+        >
+          <input
+            class="txt_bx"
+            type="text"
+            matInput
+            placeholder="New Project"
+            (change)="changeInputProject($event)"
+          />
+        </mat-form-field>
+      </div>
+      <div>
+        <button class="mr-20" mat-raised-button (click)="openDialog()">
+          <img
+            src="../../../../assets/images/add_icon.svg"
+            alt=""
+            class="width_32"
+          />
+          Add Stops
+        </button>
+        <button class="" mat-raised-button (click)="openUploadDialog()">
+          <img
+            src="../../../../assets/images/upload_icon.svg"
+            alt=""
+            class="width_32"
+          />
+          Upload a List of Stops
+        </button>
+      </div>
+
+      <div class="mb-0" *ngIf="routeProjectDetailId">
+        <div class="">
+          <button mat-button class="Common_btn" (click)="addContarints()">
+            Add Constraints
+          </button>
+          <button mat-button class="Common_btn ml10" (click)="OptimizeRoute()">
+            Optimize Route
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-md-6">
+            <div class="example-header text-right">
+                <mat-form-field>
+                    <input matInput placeholder="Filter" />
+                </mat-form-field>
+            </div>
+        </div> -->
+
+    <div class="col-md-12 pad_lr_0 mt5 mb5">
+      <div class="example-container mat-elevation-z8 border_cust pad_top_5">
+        <div class="border_bot table-lable search-section">
+          <span class="lbl-txt" *ngIf="assignedDrivers.length > 0">
+            Assigned drivers : {{ assignedDrivers.toString() }}
+          </span>
+
+          <div class="input-group rounded input_seach_cust">
+            <input
+              type="search"
+              class="form-control rounded bor_rad_18"
+              placeholder="Search"
+              (keyup)="applyFilter($event)"
+              (keydown.enter)="$event.preventDefault()"
+              aria-label="Search"
+              aria-describedby="search-addon"
+            />
+            <span class="search_icon_cl border-0" id="search-addon">
+              <img src="../../assets/images/search_icon.svg" alt="" />
+            </span>
+          </div>
+        </div>
+        <mat-table [dataSource]="dataSource" class="table-container" matSort>
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="checkbox">
+            <mat-header-cell *matHeaderCellDef class="checkbxcolumn font_clr"
+              ><mat-checkbox
+                (change)="masterToggle()"
+                [checked]="isAllSelected()"
+                [disabled]="areAllDisabled()"
+              >
+              </mat-checkbox
+            ></mat-header-cell>
+            <mat-cell class="checkbxcolumn" *matCellDef="let filedata">
+              <div class="checkbxsection">
+                <mat-checkbox
+                  (click)="$event.stopPropagation()"
+                  (change)="selectedRecords($event, filedata)"
+                  [disabled]="!filedata.enable"
+                  [checked]="filedata.isOptimized === 1"
+                >
+                </mat-checkbox>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Checkbox Column -->
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="idNo">
+            <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              {{ row.routeStopDetailId }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef class="font_clr min_w_10">
+              Name
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" class="min_w_10">
+              {{ row.name }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Progress Column -->
+          <ng-container matColumnDef="address">
+            <mat-header-cell *matHeaderCellDef class="font_clr min_w_12">
+              Address
+            </mat-header-cell>
+            <mat-cell
+              *matCellDef="let row"
+              matTooltipPosition="above"
+              class="min_w_12"
+              [matTooltip]="row?.address"
+            >
+              {{ row.address }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="city">
+            <mat-header-cell *matHeaderCellDef class="font_clr min_w_12">
+              City
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" class="min_w_12">
+              {{ row.city }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="state">
+            <mat-header-cell *matHeaderCellDef class="font_clr min_w_8">
+              State
+            </mat-header-cell>
+            <mat-cell class="min_w_8" *matCellDef="let row">
+              {{ row.state }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="zipCode">
+            <mat-header-cell *matHeaderCellDef class="font_clr min_w_7">
+              Zip Code
+            </mat-header-cell>
+            <mat-cell class="min_w_7" *matCellDef="let row">
+              {{ row.zipCode }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="type">
+            <mat-header-cell *matHeaderCellDef class="font_clr min_w_10">
+              Type
+            </mat-header-cell>
+            <mat-cell class="min_w_10" *matCellDef="let row">
+              {{ row?.type }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="contactNo">
+            <mat-header-cell *matHeaderCellDef class="font_clr min_w_10">
+              Contact No.
+            </mat-header-cell>
+            <mat-cell class="min_w_10" *matCellDef="let row">
+              {{ row?.contactNo }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="time">
+            <mat-header-cell *matHeaderCellDef class="font_clr min_w_8">
+              Parking Time
+            </mat-header-cell>
+
+            <mat-cell
+              class="min_w_8"
+              *matCellDef="let row; let i = index"
+              [style.color]="row.time"
+            >
+              <div class="parking-time">
+                <input
+                  type="number"
+                  class="custom-input"
+                  [ngModel]="row.parkingTime || 0"
+                  matInput
+                  (change)="changParkingTime(row, $event)"
+                  (keyup.enter)="changParkingTime(row, $event)"
+                  (keydown.Tab)="changParkingTime(row, $event)"
+                />
+              </div>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef class="font_clr">
+              Action
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" [style.color]="row.dateJoined">
+              <a
+                style="cursor: pointer"
+                class="mr10"
+                (click)="
+                  editStopData(
+                    row.routeStopDetailId,
+                    row.enable === false ? 'showInfoOnly' : ''
+                  )
+                "
+              >
+                <img src="../../../../assets/images/edit_icon.svg" alt="" />
+              </a>
+              <a
+                [class.disabled]="!row.enable"
+                style="cursor: pointer"
+                (click)="deleteData(row)"
+              >
+                <img src="../../../../assets/images/delete_icon.svg" alt="" />
+              </a>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+          ></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"> </mat-row>
+          <div style="text-align: center; margin: 20px" *matNoDataRow>
+            No Record Found
+          </div>
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[25, 50, 75, 100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter template -->
+<ng-template #filter>
+  <form [formGroup]="stopForm">
+    <div class="row create-driver-section pad_pop">
+      <div class="col-md-4">
+        <mat-label class="lable"
+          >Name
+          <span class="text-danger">*</span>
+        </mat-label>
+        <mat-form-field appearance="outline" class="matform">
+          <input
+            class="txt_bx"
+            matInput
+            placeholder="Name"
+            formControlName="name"
+            type="text"
+            maxlength="50"
+          />
+          <mat-error *ngIf="stopForm.get('name')?.hasError('required')">
+            Name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-label class="lable pop_font"
+          >Contact No <span class="text-danger">*</span></mat-label
+        >
+        <mat-form-field appearance="outline" class="matform">
+          <input
+            type="text"
+            class="txt_bx"
+            matInput
+            placeholder="Contact No"
+            formControlName="contactNo"
+            maxlength="25"
+          />
+          <mat-error *ngIf="stopForm.get('contactNo')?.hasError('required')">
+            Contact No is required
+          </mat-error>
+          <mat-error *ngIf="stopForm.get('contactNo')?.hasError('pattern')">
+            Invalid Contact number
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-label class="lable pop_font"
+          >Time <span class="text-danger">*</span></mat-label
+        >
+        <div class="row">
+          <div class="col-2 p-1 labeltime">
+            <mat-label>From</mat-label>
+          </div>
+          <div class="col-4 p-1 mt5">
+            <mat-form-field appearance="outline" class="matform">
+              <input
+                class="txt_bx font13"
+                placeholder="HH:MM"
+                matInput
+                formControlName="fromTime"
+                [ngxTimepicker]="pickerfromTime"
+                [format]="24"
+                [disableClick]="true"
+              />
+              <ngx-material-timepicker-toggle
+                class="Time-picker"
+                [for]="pickerfromTime"
+              ></ngx-material-timepicker-toggle>
+              <ngx-material-timepicker
+                #pickerfromTime
+              ></ngx-material-timepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="col-1 p-1 labeltime">
+            <mat-label>To</mat-label>
+          </div>
+          <div class="col-4 p-1 toggle-example mt5">
+            <mat-form-field appearance="outline" class="matform">
+              <input
+                class="txt_bx font13"
+                matInput
+                placeholder="HH:MM"
+                formControlName="toTime"
+                [ngxTimepicker]="pickertoTime"
+                [format]="24"
+                [disableClick]="true"
+              />
+              <ngx-material-timepicker-toggle
+                class="Time-picker"
+                [for]="pickertoTime"
+              ></ngx-material-timepicker-toggle>
+              <ngx-material-timepicker #pickertoTime></ngx-material-timepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div
+          *ngIf="
+            ((stopForm.controls['fromTime'].dirty ||
+              stopForm.controls['fromTime'].touched) &&
+              stopForm.controls['fromTime'].hasError('required')) ||
+            ((stopForm.controls['toTime'].dirty ||
+              stopForm.controls['toTime'].touched) &&
+              stopForm.controls['toTime'].hasError('required'))
+          "
+          class="text-danger mt0"
+        >
+          Time is required
+        </div>
+        <div *ngIf="stopForm.hasError('notValid')" class="text-danger">
+          From Time cannot be greater than To Time
+        </div>
+      </div>
+      <div class="col-md-4 mt5">
+        <mat-label class="lable pop_font"
+          >Address
+          <span class="text-danger">*</span>
+        </mat-label>
+        <mat-form-field appearance="outline" class="matform">
+          <input
+            class="txt_bx"
+            matInput
+            placeholder="Address"
+            formControlName="address"
+            type="text"
+            maxlength="250"
+          />
+          <mat-error *ngIf="stopForm.get('address')?.hasError('required')">
+            Address is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-label class="lable pop_font"
+          >Country <span class="text-danger">*</span></mat-label
+        >
+        <mat-form-field appearance="outline" class="matform">
+          <input
+            class="txt_bx"
+            type="text"
+            matInput
+            formControlName="countryId"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option
+              *ngFor="let option of filteredOptions | async"
+              [value]="option.name"
+            >
+              {{ option.name }}
+            </mat-option>
+          </mat-autocomplete>
+
+          <mat-error *ngIf="stopForm.get('countryId')?.hasError('required')">
+            Country is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-label class="lable pop_font"
+          >City <span class="text-danger">*</span></mat-label
+        >
+        <mat-form-field appearance="outline" class="matform">
+          <input
+            class="txt_bx"
+            matInput
+            placeholder="City"
+            formControlName="city"
+            type="text"
+            maxlength="25"
+          />
+          <mat-error *ngIf="stopForm.get('city')?.hasError('required')">
+            city is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 mt5">
+        <mat-label class="lable pop_font"
+          >Zipcode <span class="text-danger">*</span></mat-label
+        >
+        <mat-form-field appearance="outline" class="matform">
+          <input
+            class="txt_bx"
+            type="text"
+            matInput
+            placeholder="zipCode"
+            formControlName="zipCode"
+          />
+          <mat-error *ngIf="stopForm.get('zipCode')?.hasError('required')">
+            zipCode is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 mt5">
+        <mat-label class="lable pop_font"
+          >State <span class="text-danger">*</span></mat-label
+        >
+        <mat-form-field appearance="outline" class="matform">
+          <input
+            class="txt_bx"
+            matInput
+            placeholder="State"
+            formControlName="state"
+            type="text"
+            maxlength="25"
+          />
+          <mat-error *ngIf="stopForm.get('state')?.hasError('required')">
+            state is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 mt5">
+        <mat-label class="lable pop_font"
+          >Type <span class="text-danger">*</span></mat-label
+        >
+        <mat-form-field appearance="outline" class="matform">
+          <mat-select class="select-val" formControlName="type">
+            <mat-option value="Pickup">Pickup</mat-option>
+            <mat-option value="Delivery">Delivery</mat-option>
+            <mat-option value="Pickup & Delivery">Pickup & Delivery</mat-option>
+            <mat-option value="Depot">Depot</mat-option>
+            <mat-option value="CollectionDepot">CollectionDepot</mat-option>
+            <mat-option value="Undelivered">Undelivered</mat-option>
+          </mat-select>
+          <mat-error *ngIf="stopForm.get('type')?.hasError('required')">
+            type is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 mt5">
+        <mat-label class="lable pop_font">Remark</mat-label>
+        <mat-form-field appearance="outline" class="matform">
+          <input
+            class="txt_bx"
+            type="text"
+            matInput
+            placeholder="Add Text Here"
+            formControlName="remark"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<div *ngIf="displayFilter">
+  <app-generic-popup
+    [componentDetails]="currentFolder"
+    [infoProvide]="actInfo"
+    [filterTemplet]="filter"
+    (sendEvent)="getFilterEvent($event)"
+  ></app-generic-popup>
+</div>

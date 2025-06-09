@@ -1,0 +1,44 @@
+.live-tracking {
+    margin-top: -8px !important;
+}
+.mat-accordion .mat-expansion-panel {
+    border-radius: 19px;
+    margin-top: 5px !important;
+}
+.mat-span-title {
+    margin-right: 1rem;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    letter-spacing: 0em;
+}
+.line{
+  border-left: 1px solid gray;
+    margin-right: 12px;
+}
+.date-time-picker {
+  .mat-mdc-text-field-wrapper {
+    height: 31px !important;
+
+    .mat-mdc-form-field-flex {
+      height: 100% !important;
+      .mat-mdc-form-field-icon-suffix {
+        margin: 0 -10px 0 0px;
+      }
+    }
+  }
+}
+
+
+.date_picker {
+  .mat-mdc-icon-button.mat-mdc-button-base {
+    width: 38px !important;
+    height: 38px !important;
+    padding: 5px !important;
+    .mat-datepicker-toggle-default-icon {
+      width: 19px !important;
+      height: 19px !important;
+    }
+  }
+}

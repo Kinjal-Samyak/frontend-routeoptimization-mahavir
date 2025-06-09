@@ -1,0 +1,125 @@
+<div class="section-view">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="example-container mat-elevation-z8 mtb10 border_cust">
+                <div class="border_bot search-section pt-10">
+                    <div class="input-group rounded input_seach_cust">
+                        <input
+                            type="search"
+                            (keyup)="applyFilter($event)"
+                            class="form-control rounded bor_rad_18"
+                            placeholder="Search"
+                            (keydown.enter)="$event.preventDefault()"
+                            aria-label="Search"
+                            aria-describedby="search-addon"
+                        />
+                        <span class="search_icon_cl border-0" id="search-addon">
+                            <img
+                                src="../../assets/images/search_icon.svg"
+                                alt=""
+                            />
+                        </span>
+                    </div>
+                </div>
+                <mat-table
+                    [dataSource]="dataSource"
+                    class="table-container"
+                    matSort
+                >
+                    <ng-container matColumnDef="driverName">
+                        <mat-header-cell *matHeaderCellDef>
+                            Driver Name
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-chip-list class="chip">
+                                <mat-chip class="chip">
+                                    <img
+                                        matChipAvatar
+                                        src="../assets/images/fakeprofile.jpeg"
+                                    />
+                                    <span class="driver_name"
+                                        >{{ row.driverFirstName + ' '
+                                        }}{{
+                                            row?.driverLastName
+                                                ? row?.driverLastName
+                                                : ''
+                                        }}</span
+                                    >
+                                </mat-chip>
+                            </mat-chip-list>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="driverId">
+                        <mat-header-cell *matHeaderCellDef>
+                            Driver ID No.
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{ row?.driverDetailId || '-' }}
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="deliveryDate">
+                        <mat-header-cell *matHeaderCellDef>
+                            Delivery Date
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{ row?.routeDate || '-' }}
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="shiftTime">
+                        <mat-header-cell *matHeaderCellDef>
+                            Shift Timing
+                        </mat-header-cell>
+                        <mat-cell
+                            *matCellDef="let row"
+                            [style.color]="row.shiftTime"
+                        >
+                            {{ row?.shiftTimingStart || '-' }}
+                            {{ row?.shiftTimingFrom ? ' to ' : '' }}
+                            {{ row.shiftTimingEnd }}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="action">
+                        <mat-header-cell class="Action-col" *matHeaderCellDef>
+                            Action
+                        </mat-header-cell>
+                        <mat-cell
+                            class="Action-col"
+                            *matCellDef="let row"
+                            [style.color]="row.shiftTime"
+                        >
+                            <a
+                                routerLink="detail"
+                                [queryParams]="{
+                                    routename: row.routeName,
+                                    driverDetailId: row.driverDetailId,
+                                    routeDate: row.routeDate,
+                                    routeDetailsID: row.routeDetailId
+                                }"
+                                class="mr-2"
+                            >
+                                <img
+                                    src="../../../assets/images/eye-icon.svg"
+                                />
+                            </a>
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row
+                        *matHeaderRowDef="displayedColumns; sticky: true"
+                    ></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns">
+                    </mat-row>
+                    <div style="text-align: center; margin: 20px" *matNoDataRow>
+                        No Record Found
+                    </div>
+                </mat-table>
+
+                <mat-paginator [pageSizeOptions]="[25, 50, 75, 100]">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

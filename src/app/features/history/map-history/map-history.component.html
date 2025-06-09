@@ -1,0 +1,27 @@
+<div class="google-map" *ngIf="apiLoaded">
+    <google-map
+        #myGoogleMap
+        height="300px"
+        width="100%"
+        [zoom]="zoom"
+        [center]="center"
+        [options]="options"
+    >
+        <map-marker
+            style="margin-top: 10px"
+            #markerElem="mapMarker"
+            *ngFor="let marker of markers"
+            [position]="marker.position"
+            [label]="marker.label"
+            [title]="marker.title"
+            [options]="markerOptions"
+            [icon]="marker.icon"
+        >
+        </map-marker>
+        <map-polyline
+            *ngFor="let polyline of polylines"
+            [options]="polyline.options"
+            [path]="polyline.path"
+        ></map-polyline>
+    </google-map>
+</div>

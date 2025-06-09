@@ -1,0 +1,30 @@
+<div class="section-view mt-10">
+    <!-- <button
+        class="ml-3"
+        mat-raised-button
+        color="primary"
+        routerLink="/home/history"
+    >
+        <mat-icon>arrow_back</mat-icon>
+    </button> -->
+    <div class="row">
+        <div class="col-md-5" *ngIf="driverDetails">
+            <app-driver-details
+                [childData]="driverDetails"
+            ></app-driver-details>
+        </div>
+        <div class="col-md-7" *ngIf="documentDetails">
+            <app-documents [childData]="documentDetails"></app-documents>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-4" *ngIf="stopDetails">
+            <app-stops-history [childData]="stopDetails"></app-stops-history>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-4" *ngIf="routeDetails">
+            <app-map-history [childData]="routeDetails"></app-map-history>
+        </div>
+    </div>
+</div>

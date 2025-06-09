@@ -1,0 +1,275 @@
+<div class="login row">
+    <div class="left_login col-lg-7 col-md-6 col-sm-12">
+        <div>
+            <span
+                ><img
+                    class="pb-5"
+                    style="width:60px"
+                    src="/assets/images/logo.svg"
+            /></span>
+            <p class="welcome_txt">WELCOME TO</p>
+            <p class="Route_txt">Route Optimization</p>
+            <img src="/assets/images/Line 1.svg" />
+            <p class="login_cust">Create New Account</p>
+        </div>
+    </div>
+    <div class="right_login col-lg-5 col-md-6 col-sm-12">
+        <div class="form">
+            <form class="my-form" [formGroup]="registrationForm">
+                <div class="row margin-top-20">
+                    <h2 class="login_header paddingleftright0">New Account</h2>
+                </div>
+                <div class="row">
+                    <mat-label class="col-lg-9 col-md-11 col-sm-12 paddingleftright0 loginlbl">
+                        Name
+                    </mat-label>
+                    <mat-form-field
+                        class="col-lg-11 col-md-11 col-sm-12 logintxtbx"
+                    >
+                        <input
+                            matInput
+                            formControlName="name"
+                            name="Name"
+                            type="Name"
+                            required
+                        />
+                        <mat-error
+                            *ngIf="
+                                (registrationForm.controls['name'].touched ||
+                                    submitted) &&
+                                registrationForm.controls['name'].hasError(
+                                    'required'
+                                )
+                            "
+                        >
+                            Please enter name</mat-error
+                        >
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-label
+                        class="col-lg-9 col-md-11 col-sm-12 paddingleftright0 loginlbl margin-top-30"
+                    >
+                        Email
+                    </mat-label>
+                    <mat-form-field
+                        class="col-lg-11 col-md-11 col-sm-12 logintxtbx"
+                    >
+                        <input
+                            matInput
+                            formControlName="email"
+                            name="email"
+                            type="email"
+                            maxlength="100"
+                            required
+                        />
+                        <mat-error
+                            *ngIf="
+                                (registrationForm.controls['email'].touched ||
+                                    submitted) &&
+                                registrationForm.controls['email'].hasError(
+                                    'required'
+                                )
+                            "
+                        >
+                            Please enter email</mat-error
+                        >
+                        <mat-error
+                            *ngIf="
+                                registrationForm.controls['email'].hasError(
+                                    'pattern'
+                                )
+                            "
+                            >Please enter valid email</mat-error
+                        >
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-label
+                        class="col-lg-9 col-md-11 col-sm-12 paddingleftright0 loginlbl margin-top-30"
+                    >
+                        Contact No
+                    </mat-label>
+                    <mat-form-field
+                        class="col-lg-11 col-md-11 col-sm-12 logintxtbx"
+                    >
+                        <input
+                            matInput
+                            formControlName="contactNo"
+                            name="contactNo"
+                            maxlength="25"
+                            required
+                        />
+                        <mat-error
+                            *ngIf="
+                                (registrationForm.controls['contactNo']
+                                    .touched ||
+                                    submitted) &&
+                                registrationForm.controls['contactNo'].hasError(
+                                    'required'
+                                )
+                            "
+                        >
+                            Please enter contact number</mat-error
+                        >
+                        <mat-error
+                            *ngIf="
+                                registrationForm
+                                    .get('contactNo')
+                                    ?.hasError('pattern')
+                            "
+                        >
+                            Invalid contact number
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-label
+                        class="col-lg-9 col-md-11 col-sm-12 paddingleftright0 loginlbl margin-top-30"
+                    >
+                        Password
+                    </mat-label>
+                    <mat-form-field
+                        class="col-lg-11 col-md-11 col-sm-12 logintxtbx"
+                    >
+                        <input
+                            matInput
+                            formControlName="password"
+                            [type]="hidePassword ? 'password' : 'text'"
+                        />
+                        <button
+                            mat-icon-button
+                            matSuffix
+                            (click)="togglePasswordVisibility()"
+                        >
+                            <mat-icon class="font21">{{
+                                hidePassword ? 'visibility_off' : 'visibility'
+                            }}</mat-icon>
+                        </button>
+                        <mat-error
+                            *ngIf="
+                                (registrationForm.controls['password']
+                                    .touched ||
+                                    submitted) &&
+                                registrationForm.controls['password'].hasError(
+                                    'required'
+                                )
+                            "
+                        >
+                            Please enter password.</mat-error
+                        >
+                        <mat-error
+                            *ngIf="
+                                (registrationForm.controls['password']
+                                    .touched ||
+                                    submitted) &&
+                                registrationForm.controls['password'].hasError(
+                                    'pattern'
+                                )
+                            "
+                        >
+                            Password must contain At least 8 characters having 1
+                            uppercase, 1 lowercase, 1 number, 1 Special
+                            Character</mat-error
+                        >
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-label
+                        class="col-lg-9 col-md-11 col-sm-12 paddingleftright0 loginlbl margin-top-30"
+                    >
+                        Confirm Password
+                    </mat-label>
+                    <mat-form-field
+                        class="col-lg-11 col-md-11 col-sm-12 logintxtbx"
+                    >
+                        <input
+                            matInput
+                            formControlName="cPassword"
+                            [type]="hideCPassword ? 'password' : 'text'"
+                        />
+                        <button
+                            mat-icon-button
+                            matSuffix
+                            (click)="toggleCPasswordVisibility()"
+                        >
+                            <mat-icon class="font21">{{
+                                hideCPassword ? 'visibility_off' : 'visibility'
+                            }}</mat-icon>
+                        </button>
+                        <mat-error
+                            *ngIf="
+                                (registrationForm.controls['cPassword']
+                                    .touched ||
+                                    submitted) &&
+                                registrationForm.controls['cPassword'].hasError(
+                                    'required'
+                                )
+                            "
+                        >
+                            Please enter confirm password</mat-error
+                        >
+                        <mat-error
+                            *ngIf="
+                                registrationForm.controls['cPassword'].hasError(
+                                    'matching'
+                                )
+                            "
+                        >
+                            Passsword and Confirm Password didn't
+                            match</mat-error
+                        >
+                        <mat-error
+                            *ngIf="
+                                (registrationForm.controls['cPassword']
+                                    .touched ||
+                                    submitted) &&
+                                registrationForm.controls['cPassword'].hasError(
+                                    'pattern'
+                                )
+                            "
+                        >
+                            Password must contain At least 8 characters having 1
+                            uppercase, 1 lowercase, 1 number, 1 Special
+                            Character</mat-error
+                        >
+                    </mat-form-field>
+                </div>
+                <!-- <div class="row">
+                    <mat-checkbox
+                        color="primary"
+                        class="col-lg-9 col-md-11 col-sm-12 paddingleftright0 margin-top-30"
+                        (change)="ischecked()"
+                        >Show Password</mat-checkbox
+                    >
+                    <span *ngIf="checked" class="col-lg-9 col-md-11 col-sm-12">
+                        {{ showpassvar }}</span
+                    >
+                </div> -->
+                <div class="row margin-top-30">
+                    <div
+                        class="col-lg-11 col-md-11 col-sm-12 paddingleftright0 row-btn"
+                    >
+                        <button
+                            mat-button
+                            class="pull-left Common_btn login_btn col-lg-5 mr10"
+                            (click)="createNew()"
+                        >
+                            New Account
+                        </button>
+                        <button
+                            mat-button
+                            class="pull-right Common_btn Create_btn col-lg-5"
+                            routerLink="login"
+                        >
+                            Login
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

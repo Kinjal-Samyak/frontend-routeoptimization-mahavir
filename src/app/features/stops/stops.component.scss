@@ -1,0 +1,41 @@
+.mat-dialog-container {
+    padding: 0px !important;
+}
+.parking-time {
+    width: 80px;
+    height: 28px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    border-radius: 24px;
+    border: 1px solid #2e70d6;
+}
+.table-container {
+    height: calc(100vh - 255px);
+    overflow: auto;
+    position: relative;
+}
+.mat-paginator-sticky {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+}
+
+.table-lable {
+    display: flex;
+    align-items: center;
+    .lbl-txt {
+        color: #000000;
+        font-size: 14px;
+        padding-left: 24px;
+        font-weight: 500;
+    }
+}
+
+a.disabled {
+    pointer-events: none;
+    color: gray; /* or any other disabled color */
+    text-decoration: none;
+    cursor: not-allowed;
+}

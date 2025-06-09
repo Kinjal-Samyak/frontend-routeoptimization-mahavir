@@ -1,0 +1,29 @@
+table {
+    width: 100%;
+}
+
+.history-table {
+    border-radius: 10px;
+    // padding-top: 1rem;
+    height: 257px;
+    padding-bottom: 55px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.mat-elevation-z8 {
+    box-shadow: none !important;
+}
+
+.table-container {
+    height: 100%;
+    overflow: auto;
+    border-radius: 10px;
+}
+
+.mat-paginator-sticky {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+}

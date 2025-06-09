@@ -1,0 +1,28 @@
+<div class="right-side-bar">
+    <div class="navbar nav-horizontal margin_70 pos_sticky1 pb-3 height_80">
+        <div class="w_100">
+            <div class="d-flex">
+                <div class="left-sidebar-menu clscompanyname">
+                    <span
+                        class="mr-3 backarrow"
+                        *ngIf="headerTitle === 'View History'"
+                        (click)="backToHistory()"
+                        ><img src="../assets/images/backarrow.svg" alt=""
+                    /></span>
+                    <span class="sidebar-header-title">
+                        {{ headerTitle }}
+                    </span>
+                </div>
+                <div class="profile_notify">
+                    <div class="">
+                        <img
+                            src="../../assets/images/notification_icon.svg"
+                            alt=""
+                            class=""
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

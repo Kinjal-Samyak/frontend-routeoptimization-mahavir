@@ -1,0 +1,446 @@
+<div class="d-flex">
+    <div class="grid-layout width_half">
+        <div class="mat-select pb-4">
+            <form [formGroup]="reactiveForm" class="login-form">
+                <div class="d-flex csv-section">
+                    <div class="example-container driver_cust">
+                        <mat-label class="lable pop_font"
+                            >Account no :</mat-label
+                        >
+                        <mat-form-field appearance="outline">
+                            <input
+                                matInput
+                                placeholder="xxx876"
+                                formControlName="accountNo"
+                                class="pad_botup_5"
+                            />
+
+                            <mat-error
+                                *ngIf="errorHandling('accountNo', 'required')"
+                                >Please enter value</mat-error
+                            >
+                        </mat-form-field>
+                    </div>
+                    <div class="dropdown-market">
+                        <mat-label class="lable pop_font"
+                            >Market Place :</mat-label
+                        >
+                        <mat-form-field appearance="outline">
+                            <mat-select
+                                formControlName="marketPlace"
+                                (valueChange)="placeChanges($event)"
+                                required
+                            >
+                                <mat-option
+                                    *ngFor="let place of marketPlace"
+                                    [value]="place.BranchName"
+                                >
+                                    {{ place.BranchName }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="errorHandling('marketPlace', 'required')"
+                                >Please choose a place</mat-error
+                            >
+                        </mat-form-field>
+                    </div>
+
+                    <div
+                        class="example-container driver_cust"
+                        style="margin-left: 16px"
+                    >
+                        <mat-label class="lable pop_font"
+                            >No. of drivers :</mat-label
+                        >
+                        <mat-form-field appearance="outline">
+                            <input
+                                matInput
+                                placeholder="No. of drivers"
+                                formControlName="NoOfDriver"
+                                required
+                                class="pad_botup_5"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Date time picker from date to date -->
+                <div class="d-flex datetime-section">
+                    <div class="dropdown-market">
+                        <mat-label class="lable pop_font"
+                            >Select the Date :</mat-label
+                        >
+                        <mat-form-field appearance="outline">
+                            <input
+                                matInput
+                                placeholder="Date"
+                                formControlName="dateControl"
+                                [matDatepicker]="picker"
+                            />
+                            <mat-datepicker-toggle
+                                matIconSuffix
+                                [for]="picker"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error
+                                *ngIf="errorHandling('NoOfDriver', 'required')"
+                                >This field is reuired</mat-error
+                            >
+                        </mat-form-field>
+                    </div>
+                    <div class="dropdown-market" style="margin-left: 16px">
+                        <button
+                            mat-button
+                            class="Common_btn_route option1_btn mr-3"
+                            (click)="getJsonvData()"
+                        >
+                            Get Route
+                        </button>
+                    </div>
+                    <div class="dropdown-market" style="margin-left: 8px">
+                        <button
+                            mat-button
+                            class="Common_btn_route option1_btn mr-3"
+                            (click)="ResetButton()"
+                        >
+                            Reset
+                        </button>
+                    </div>
+                </div>
+                <div
+                    class="d-flex datetime-section"
+                    *ngIf="this.routeDetails?.lastdatetime"
+                >
+                    <div class="dropdown-market">
+                        <mat-label class="lable pop_font"
+                            >Updated Date-time :
+                            {{ this.routeDetails?.lastdatetime }}</mat-label
+                        >
+                    </div>
+                    <div class="dropdown-market" style="margin-left: 32px">
+                        <mat-label class="lable pop_font"
+                            >No. of Stops :
+                            {{ this.routeDetails?.NoOfStop }}</mat-label
+                        >
+                    </div>
+                    <div class="dropdown-market" style="margin-left: 32px">
+                        <mat-label class="lable pop_font">
+                            Total Stops :
+                            {{ this.routeDetails?.totalStop }}</mat-label
+                        >
+                    </div>
+                </div>
+
+                <!-- Date picker functionality end -->
+            </form>
+        </div>
+
+        <div class="collapse_table">
+            <mat-accordion *ngIf="numOfDriver.length > 0">
+                <ng-container
+                    *ngFor="let driver of numOfDriver; let mainI = index"
+                >
+                    <mat-expansion-panel
+                        (opened)="panelOpenState = true"
+                        (closed)="panelOpenState = false"
+                    >
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="font-weight-bold">
+                                Driver {{ mainI + 1 }}</mat-panel-title
+                            >
+                            <mat-panel-description></mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ng-container *ngIf="dataSource.length > 0">
+                            <table
+                                mat-table
+                                [dataSource]="dataSource[mainI]"
+                                class="mat-elevation-z8 box_shad"
+                            >
+                                <!--- Note that these columns can be defined in any order.
+                           The actual rendered columns are set as a property on the row definition" -->
+
+                                <!-- Stop Column -->
+                                <ng-container matColumnDef="stop">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Stop
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element.CustomerCode }}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Type Column -->
+                                <ng-container matColumnDef="type">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Type
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{
+                                            element?.type ||
+                                                element?.ServiceType
+                                        }}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Company Details Column -->
+                                <ng-container matColumnDef="companyDetails">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Company Details
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element.CompanyName }}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Miles Column -->
+                                <ng-container matColumnDef="miles">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        {{ country == 'USA' ? 'Miles' : 'Km' }}
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element?.DistanceTravelled || '0' }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="time">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Service Time
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element.ServiceTime }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="select">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="font-weight-bold px-2"
+                                    >
+                                        Completed
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="px-2 text-center"
+                                        *matCellDef="
+                                            let element;
+                                            let selectIn = index
+                                        "
+                                    >
+                                        <mat-checkbox
+                                            (change)="
+                                                selectedCode(
+                                                    $event,
+                                                    element,
+                                                    mainI
+                                                )
+                                            "
+                                            [checked]="element?.completedStops"
+                                            [disabled]="isEnabled"
+                                            color="primary"
+                                            class="example-margin"
+                                        ></mat-checkbox>
+                                    </td>
+                                </ng-container>
+
+                                <tr
+                                    mat-header-row
+                                    *matHeaderRowDef="displayedColumns"
+                                ></tr>
+                                <tr
+                                    mat-row
+                                    *matRowDef="
+                                        let row;
+                                        columns: displayedColumns
+                                    "
+                                ></tr>
+                            </table>
+                        </ng-container>
+                    </mat-expansion-panel>
+                </ng-container>
+            </mat-accordion>
+
+            <ng-container *ngIf="dataSource2.length > 0">
+                <div class="" style="padding-right: 16px">
+                    <table
+                        mat-table
+                        [dataSource]="dataSource2"
+                        class="mat-elevation-z8 box_shad"
+                        style="margin-top: 16px"
+                    >
+                        <!--- Note that these columns can be defined in any order.
+       The actual rendered columns are set as a property on the row definition" -->
+
+                        <!-- driver Column -->
+                        <ng-container matColumnDef="Driver">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                Driver
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="let element"
+                            >
+                                {{ element.driver + 1 }}
+                            </td>
+                        </ng-container>
+                        <!-- Type Column -->
+                        <ng-container matColumnDef="TotalDeliveryTime">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                Total Delivery Time
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="let element"
+                            >
+                                {{ element?.TotalDeliveryTime }}
+                            </td>
+                        </ng-container>
+
+                        <!-- Type Column -->
+                        <ng-container matColumnDef="TotalDistanceTravelled">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                Total Distance Travelled
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="let element"
+                            >
+                                {{ element?.TotalDistanceTravelled }}
+                            </td>
+                        </ng-container>
+
+                        <!-- Company Details Column -->
+                        <ng-container matColumnDef="TotalServiceTime">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                Total Service Time
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="let element"
+                            >
+                                {{ element.TotalServiceTime }}
+                            </td>
+                        </ng-container>
+
+                        <!-- Miles Column -->
+                        <ng-container matColumnDef="TotalTravelTime">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="font-weight-bold px-2"
+                            >
+                                Total Travel Time
+                            </th>
+                            <td
+                                mat-cell
+                                class="px-2 text-center"
+                                *matCellDef="let element"
+                            >
+                                {{ element?.TotalTravelTime }}
+                            </td>
+                        </ng-container>
+
+                        <tr
+                            mat-header-row
+                            *matHeaderRowDef="displayedColumns2"
+                        ></tr>
+                        <tr
+                            mat-row
+                            *matRowDef="let row; columns: displayedColumns2"
+                        ></tr>
+                    </table>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="isDataAvaialable">
+                <div class="" style="padding-right: 16px; color: red">
+                    No Data Available
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="google-maps width_half" *ngIf="apiLoaded">
+        <google-map
+            #myGoogleMap
+            height="550px"
+            width="100%"
+            [zoom]="zoom"
+            [center]="center"
+            [options]="options"
+        >
+            <map-marker
+                style="margin-top: 10px"
+                #markerElem="mapMarker"
+                *ngFor="let marker of markers"
+                [position]="marker.position"
+                [label]="marker.label"
+                [title]="marker.title"
+                [options]="marker.options"
+                [icon]="marker.icon"
+            >
+            </map-marker>
+            <map-polyline [path]="vertices"></map-polyline>
+        </google-map>
+    </div>
+</div>

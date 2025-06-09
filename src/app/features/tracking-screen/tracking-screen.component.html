@@ -1,0 +1,679 @@
+<div class="margin_left_main pad_lr_0 pad_top_85 d-flex">
+    <div class="section-view">
+        <mat-accordion class="mt-collapse">
+            <ng-container>
+                <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title class="toggle-icon">
+                            <img
+                                src="../../../assets/images/_x33_.png"
+                                alt=""
+                            />
+                        </mat-panel-title>
+                        <div
+                            class="mat-panel mat-label-head"
+                            (click)="$event.stopPropagation()"
+                        >
+                            <mat-panel-description>
+                                <div class="header-details head1">
+                                    <span class="mat-span-title"
+                                        >Scheduled :
+                                        {{ routeDetails?.plannedStops }}/{{
+                                            routeDetails?.totalStops
+                                        }}</span
+                                    >
+                                    <span class="mat-span-title"
+                                        >Working Mins :
+                                        {{ routeDetails?.totalDuration }}</span
+                                    >
+                                    <span class="mat-span-title"
+                                        >Total Distance:
+                                        {{
+                                            routeDetails?.totalDistance +
+                                                ' ' +
+                                                routeDetails?.totalDistanceUom
+                                        }}
+                                    </span>
+                                </div>
+
+                                <div class="header-details2">
+                                    <button
+                                        class="add_Stopbtn"
+                                        mat-stroked-button
+                                        (click)="AddStops()"
+                                        color="primary"
+                                    >
+                                        Add Stops
+                                    </button>
+                                    <button
+                                        class="add_Stopbtn"
+                                        mat-stroked-button
+                                        (click)="addContarints()"
+                                        color="primary"
+                                    >
+                                        Add Constraints
+                                    </button>
+                                    <button
+                                        class="publish_routebtn"
+                                        mat-stroked-button
+                                        color="primary"
+                                        (click)="publishRoute()"
+                                    >
+                                        Publish Route
+                                    </button>
+                                </div>
+                            </mat-panel-description>
+                        </div>
+                    </mat-expansion-panel-header>
+
+                    <div
+                        class="Driver-panel"
+                        cdkDropList
+                        [cdkDropListData]="panels"
+                        cdkDropListGroup
+                        (cdkDropListDropped)="drop($event)"
+                    >
+                        <span class="driver-activity header-dr-ac row">
+                            <div
+                                class="driver-lists col-lg-3"
+                                style="display: flex; align-items: center"
+                            >
+                                <span class="drivers no-style pl-0"
+                                    >Driver List</span
+                                >
+                                <mat-form-field
+                                    appearance="outline"
+                                    class="matform inputs w-50"
+                                >
+                                    <mat-select
+                                        class="select-val"
+                                        [formControl]="driverForm"
+                                        placeholder="Select time slot"
+                                        #select
+                                        multiple
+                                        (closed)="selectTimeSlot()"
+                                    >
+                                        <div class="select-all mat-option">
+                                            <mat-checkbox
+                                                color="primary"
+                                                [(ngModel)]="allSelected"
+                                                [ngModelOptions]="{
+                                                    standalone: true
+                                                }"
+                                                (change)="toggleAllSelection()"
+                                                >Select All</mat-checkbox
+                                            >
+                                        </div>
+                                        <mat-option
+                                            (click)="optionClick()"
+                                            *ngFor="let time of timeSlots"
+                                            [value]="time"
+                                            >{{ time }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="time-tracking col-lg-9">
+                                <ng-container
+                                    *ngFor="let time of timeIntervals"
+                                >
+                                    <span>{{ time }}</span>
+                                </ng-container>
+                            </div>
+                        </span>
+                        <div
+                            *ngFor="let panel of panels; let i = index"
+                            class="driver-activity row"
+                            cdkDrag
+                        >
+                            <div class="driver-lists col-lg-3">
+                                <span class="drivers">
+                                    <img
+                                        src="../../../assets/images/fakeprofile.jpeg"
+                                        class="driver-img"
+                                    />
+                                    <span class="driver-name">{{
+                                        panel?.name
+                                    }}</span>
+                                    <!-- <img
+                                      src="../../../assets/images/eye-icon.svg"
+
+                                  /> -->
+                                    <img
+                                        src="../../../assets/images/drag 1.png"
+                                        class="drag-icon"
+                                        cdkDragHandle
+                                    />
+                                </span>
+                            </div>
+                            <div
+                                class="custom-tracking col-lg-9"
+                                [ngStyle]="{
+                                    background: lightColorArray[i]
+                                }"
+                            >
+                                <!-- <button
+                                  class="start-button"
+                                  [ngStyle]="{
+                                      background: arrayOfDarkColor[i]
+                                  }"
+                                  (click)="onStartTime($event)"
+                              >
+                                  <img
+                                      src="../../../assets/images/start.svg"
+                                      alt="Start"
+                                  />
+                              </button> -->
+                                <ng-container
+                                    *ngFor="
+                                        let stop of panel.stops;
+                                        let i2 = index
+                                    "
+                                >
+                                    <button
+                                        class="middle-button"
+                                        [matBadge]="
+                                            stop?.isNewAdded ? 'new' : ''
+                                        "
+                                        [ngStyle]="{
+                                            background: stop?.isProblemStatus
+                                                ? '#FFE1E1'
+                                                : minLightColorAraay[i],
+                                            color: stop?.isProblemStatus
+                                                ? '#C82525'
+                                                : '',
+                                            left:
+                                                stop.percentage === '0%' ||
+                                                stop.percentage === '1%' ||
+                                                stop.percentage === '2%' ||
+                                                stop.percentage === '3%'
+                                                    ? stop.percentage
+                                                    : 'calc(' +
+                                                      stop.percentage +
+                                                      ' - ' +
+                                                      '3%)'
+                                        }"
+                                        (click)="
+                                            onTime(panel?.driverDetailId, stop)
+                                        "
+                                    >
+                                        {{ stop.stopNum }}
+                                    </button>
+                                </ng-container>
+                                <!-- <button
+                                  class="end-button"
+                                  [ngStyle]="{
+                                      background: arrayOfDarkColor[i]
+                                  }"
+                                  (click)="onEndTime($event)"
+                              >
+                                  <img
+                                      src="../../../assets/images/finish.svg"
+                                      alt="finish"
+                                  />
+                              </button> -->
+                                <div
+                                    class="live-tracking"
+                                    [ngStyle]="{
+                                        background: arrayOfDarkColor[i]
+                                    }"
+                                    [style.width.%]="currentPosition"
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </ng-container>
+        </mat-accordion>
+        <mat-accordion
+            class="mt-collapse"
+            *ngIf="
+                this.routeDetails?.dropStops?.length &&
+                this.routeDetails?.dropStops
+            "
+        >
+            <ng-container>
+                <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title class="toggle-icon">
+                            <img
+                                src="../../../assets/images/_x33_.png"
+                                alt=""
+                            />
+                        </mat-panel-title>
+                        <div
+                            class="mat-panel mat-label-head"
+                            (click)="$event.stopPropagation()"
+                        >
+                            <mat-panel-description>
+                                <div class="header-details head1">
+                                    <span class="mat-span-title"
+                                        >Dropped Stops
+                                    </span>
+                                </div>
+                            </mat-panel-description>
+                        </div>
+                    </mat-expansion-panel-header>
+
+                    <div class="col-md-12 pad_lr_0 mt5 mb5">
+                        <mat-table
+                            [dataSource]="dataSource"
+                            class="table-container"
+                            style="
+                                border: 1px solid rgba(0, 0, 0, 0.12);
+                                height: 226px;
+                                overflow: auto;
+                            "
+                            matSort
+                        >
+                            <ng-container matColumnDef="stopNo">
+                                <mat-header-cell
+                                    class="wid-15"
+                                    *matHeaderCellDef
+                                >
+                                    Route Stop Detail Id
+                                </mat-header-cell>
+                                <mat-cell class="wid-15" *matCellDef="let row">
+                                    {{ row?.routeStopDetailId[0] }}
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="stopName">
+                                <mat-header-cell
+                                    class="wid-15"
+                                    *matHeaderCellDef
+                                >
+                                    Stop Name
+                                </mat-header-cell>
+                                <mat-cell class="wid-15" *matCellDef="let row">
+                                    {{ row?.name }}
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="address">
+                                <mat-header-cell
+                                    *matHeaderCellDef
+                                    class="font_clr min_w_12"
+                                >
+                                    Address
+                                </mat-header-cell>
+                                <mat-cell
+                                    *matCellDef="let row"
+                                    matTooltipPosition="above"
+                                    class="min_w_12"
+                                    [matTooltip]="row?.address"
+                                >
+                                    {{ row?.address }}
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="contactNo">
+                                <mat-header-cell
+                                    class="wid-15"
+                                    *matHeaderCellDef
+                                >
+                                    Contact No
+                                </mat-header-cell>
+                                <mat-cell class="wid-15" *matCellDef="let row">
+                                    {{ row?.contactNo }}
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="stopTime">
+                                <mat-header-cell
+                                    class="wid-15"
+                                    *matHeaderCellDef
+                                >
+                                    Stop Time
+                                </mat-header-cell>
+                                <mat-cell class="wid-15" *matCellDef="let row">
+                                    {{ row?.fromTime + '-' + row?.toTime }}
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="parkingTime">
+                                <mat-header-cell
+                                    class="wid-15"
+                                    *matHeaderCellDef
+                                >
+                                    Parking Time
+                                </mat-header-cell>
+                                <mat-cell class="wid-15" *matCellDef="let row">
+                                    {{ row?.parkingTime }}
+                                </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row
+                                style="background: #eef5ff"
+                                *matHeaderRowDef="
+                                    displayedColumns;
+                                    sticky: true
+                                "
+                            ></mat-header-row>
+                            <mat-row
+                                *matRowDef="let row; columns: displayedColumns"
+                            >
+                            </mat-row>
+                            <div
+                                style="text-align: center; margin: 20px"
+                                *matNoDataRow
+                            >
+                                No Record Found
+                            </div>
+                        </mat-table>
+                    </div>
+                </mat-expansion-panel>
+            </ng-container>
+        </mat-accordion>
+        <div class="google-map" *ngIf="apiLoaded">
+            <google-map
+                #myGoogleMap
+                height="400px"
+                width="100%"
+                [zoom]="zoom"
+                [center]="center"
+                [options]="options"
+            >
+                <map-marker
+                    style="margin-top: 10px"
+                    #markerElem="mapMarker"
+                    *ngFor="let marker of markers"
+                    [position]="marker.position"
+                    [label]="marker.label"
+                    [title]="marker.title"
+                    [options]="markerOptions"
+                    [icon]="marker.icon"
+                    (markerClick)="onMarkerClick($event, marker)"
+                >
+                </map-marker>
+                <map-polyline
+                    *ngFor="let polyline of polylines"
+                    [options]="polyline.options"
+                    [path]="polyline.path"
+                ></map-polyline>
+            </google-map>
+        </div>
+    </div>
+</div>
+
+<!-- Filter template -->
+<ng-template #filter>
+    <form [formGroup]="stopForm">
+        <div class="row create-driver-section pad_pop">
+            <div class="col-md-4">
+                <mat-label class="lable"
+                    >Name
+                    <span class="text-danger">*</span>
+                </mat-label>
+                <mat-form-field appearance="outline" class="matform">
+                    <input
+                        class="txt_bx"
+                        matInput
+                        placeholder="Name"
+                        formControlName="name"
+                        type="text"
+                        maxlength="50"
+                    />
+                    <mat-error
+                        *ngIf="stopForm.get('name')?.hasError('required')"
+                    >
+                        Name is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-label class="lable pop_font"
+                    >Contact No <span class="text-danger">*</span></mat-label
+                >
+                <mat-form-field appearance="outline" class="matform">
+                    <input
+                        type="text"
+                        class="txt_bx"
+                        matInput
+                        placeholder="Contact No"
+                        formControlName="contactNo"
+                        maxlength="25"
+                    />
+                    <mat-error
+                        *ngIf="stopForm.get('contactNo')?.hasError('required')"
+                    >
+                        Contact No is required
+                    </mat-error>
+                    <mat-error
+                        *ngIf="stopForm.get('contactNo')?.hasError('pattern')"
+                    >
+                        Invalid Contact number
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+                <mat-label class="lable pop_font"
+                    >Time <span class="text-danger">*</span></mat-label
+                >
+                <div class="row">
+                    <div class="col-2 p-1 labeltime">
+                        <mat-label>From</mat-label>
+                    </div>
+                    <div class="col-4 p-1 mt5">
+                        <mat-form-field appearance="outline" class="matform">
+                            <input
+                                class="txt_bx font13"
+                                placeholder="HH:MM"
+                                matInput
+                                formControlName="fromTime"
+                                [ngxTimepicker]="pickerfromTime"
+                                [format]="24"
+                                [disableClick]="true"
+                            />
+                            <ngx-material-timepicker-toggle
+                                class="Time-picker"
+                                [for]="pickerfromTime"
+                            ></ngx-material-timepicker-toggle>
+                            <ngx-material-timepicker
+                                #pickerfromTime
+                            ></ngx-material-timepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-1 p-1 labeltime">
+                        <mat-label>To</mat-label>
+                    </div>
+                    <div class="col-4 p-1 toggle-example mt5">
+                        <mat-form-field appearance="outline" class="matform">
+                            <input
+                                class="txt_bx font13"
+                                matInput
+                                placeholder="HH:MM"
+                                formControlName="toTime"
+                                [ngxTimepicker]="pickertoTime"
+                                [format]="24"
+                                [disableClick]="true"
+                            />
+                            <ngx-material-timepicker-toggle
+                                class="Time-picker"
+                                [for]="pickertoTime"
+                            ></ngx-material-timepicker-toggle>
+                            <ngx-material-timepicker
+                                #pickertoTime
+                            ></ngx-material-timepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div
+                    *ngIf="
+                        ((stopForm.controls['fromTime'].dirty ||
+                            stopForm.controls['fromTime'].touched) &&
+                            stopForm.controls['fromTime'].hasError(
+                                'required'
+                            )) ||
+                        ((stopForm.controls['toTime'].dirty ||
+                            stopForm.controls['toTime'].touched) &&
+                            stopForm.controls['toTime'].hasError('required'))
+                    "
+                    class="text-danger mt0"
+                >
+                    Time is required
+                </div>
+                <div *ngIf="stopForm.hasError('notValid')" class="text-danger">
+                    From Time cannot be greater than To Time
+                </div>
+            </div>
+            <div class="col-md-4 mt5">
+                <mat-label class="lable pop_font"
+                    >Address
+                    <span class="text-danger">*</span>
+                </mat-label>
+                <mat-form-field appearance="outline" class="matform">
+                    <input
+                        class="txt_bx"
+                        matInput
+                        placeholder="Address"
+                        formControlName="address"
+                        type="text"
+                        maxlength="250"
+                    />
+                    <mat-error
+                        *ngIf="stopForm.get('address')?.hasError('required')"
+                    >
+                        Address is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-label class="lable pop_font"
+                    >Country <span class="text-danger">*</span></mat-label
+                >
+                <mat-form-field appearance="outline" class="matform">
+                    <input
+                        class="txt_bx"
+                        type="text"
+                        matInput
+                        formControlName="countryId"
+                        [matAutocomplete]="auto"
+                    />
+                    <mat-autocomplete
+                        #auto="matAutocomplete"
+                        [displayWith]="displayFn"
+                    >
+                        <mat-option
+                            *ngFor="let option of filteredOptions | async"
+                            [value]="option.name"
+                        >
+                            {{ option.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <mat-error
+                        *ngIf="stopForm.get('countryId')?.hasError('required')"
+                    >
+                        Country is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-label class="lable pop_font"
+                    >City <span class="text-danger">*</span></mat-label
+                >
+                <mat-form-field appearance="outline" class="matform">
+                    <input
+                        class="txt_bx"
+                        matInput
+                        placeholder="City"
+                        formControlName="city"
+                        type="text"
+                        maxlength="25"
+                    />
+                    <mat-error
+                        *ngIf="stopForm.get('city')?.hasError('required')"
+                    >
+                        city is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 mt5">
+                <mat-label class="lable pop_font"
+                    >Zipcode <span class="text-danger">*</span></mat-label
+                >
+                <mat-form-field appearance="outline" class="matform">
+                    <input
+                        class="txt_bx"
+                        type="text"
+                        matInput
+                        placeholder="zipCode"
+                        formControlName="zipCode"
+                    />
+                    <mat-error
+                        *ngIf="stopForm.get('zipCode')?.hasError('required')"
+                    >
+                        zipCode is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 mt5">
+                <mat-label class="lable pop_font"
+                    >State <span class="text-danger">*</span></mat-label
+                >
+                <mat-form-field appearance="outline" class="matform">
+                    <input
+                        class="txt_bx"
+                        matInput
+                        placeholder="State"
+                        formControlName="state"
+                        type="text"
+                        maxlength="25"
+                    />
+                    <mat-error
+                        *ngIf="stopForm.get('state')?.hasError('required')"
+                    >
+                        state is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 mt5">
+                <mat-label class="lable pop_font"
+                    >Type <span class="text-danger">*</span></mat-label
+                >
+                <mat-form-field appearance="outline" class="matform">
+                    <mat-select class="select-val" formControlName="type">
+                        <mat-option value="Pickup">Pickup</mat-option>
+                        <mat-option value="Delivery">Delivery</mat-option>
+                        <mat-option value="Pickup & Delivery"
+                            >Pickup & Delivery</mat-option
+                        >
+                        <mat-option value="Depot">Depot</mat-option>
+                        <mat-option value="CollectionDepot"
+                            >CollectionDepot</mat-option
+                        >
+                        <mat-option value="Undelivered">Undelivered</mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="stopForm.get('type')?.hasError('required')"
+                    >
+                        type is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 mt5">
+                <mat-label class="lable pop_font">Remark</mat-label>
+                <mat-form-field appearance="outline" class="matform">
+                    <input
+                        class="txt_bx"
+                        type="text"
+                        matInput
+                        placeholder="Add Text Here"
+                        formControlName="remark"
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<div *ngIf="displayFilter">
+    <app-generic-popup
+        [componentDetails]="currentFolder"
+        [filterTemplet]="filter"
+        (sendEvent)="getFilterEvent($event)"
+    ></app-generic-popup>
+</div>

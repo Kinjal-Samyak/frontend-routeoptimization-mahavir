@@ -1,0 +1,369 @@
+<div class="section-view">
+    <div class="row">
+        <div class="col-md-3 d-flex pad_lr_0 justify-content-between mtb10">
+            <mat-card appearance="outlined" class="card1">
+                <mat-card-content
+                    ><h2>
+                        {{
+                            projectList ? projectList?.project_list?.length : 0
+                        }}
+                    </h2>
+                    <span>Total Projects </span>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-md-3 d-flex pad_lr_0 justify-content-between mtb10">
+            <mat-card appearance="outlined" class="card2">
+                <mat-card-content
+                    ><h2>{{ cardsData ? cardsData?.npickstudents : 0 }}</h2>
+                    <span>Total Pickups </span>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-md-3 d-flex pad_lr_0 justify-content-between mtb10">
+            <mat-card appearance="outlined" class="card3">
+                <mat-card-content
+                    ><h2>{{ cardsData ? cardsData?.ndropstudents : 0 }}</h2>
+                    <span>Total Drop off </span>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-md-3 d-flex pad_lr_0 justify-content-between mtb10">
+            <mat-card appearance="outlined" class="card4">
+                <mat-card-content>
+                    <h2>{{ cardsData ? cardsData?.nbus : 0 }}</h2>
+                    <span>Total Buses </span>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div class="col-md-12 pad_lr_0 mt5 mb5">
+            <div
+                class="example-container mat-elevation-z8 border_cust pad_top_5"
+            >
+                <div
+                    class="border_bot search-section d-flex"
+                    style="justify-content: space-between"
+                >
+                    <div style="display: flex">
+                        <div class="input-group rounded input_seach_cust">
+                            <input
+                                type="search"
+                                class="form-control rounded bor_rad_18"
+                                placeholder="Search"
+                                (keyup)="applyFilter($event)"
+                                (keydown.enter)="$event.preventDefault()"
+                                aria-label="Search"
+                                aria-describedby="search-addon"
+                            />
+                            <span
+                                class="search_icon_cl border-0"
+                                id="search-addon"
+                            >
+                                <img
+                                    src="../../assets/images/search_icon.svg"
+                                    alt=""
+                                />
+                            </span>
+                        </div>
+                        <div
+                            class="date input-group rounded input_seach_cust pt-2"
+                            style="height: 48px"
+                        >
+                            <mat-form-field
+                                appearance="outline"
+                                class="w-100 Input-lbl date-time-picker"
+                                style="display: contents !important"
+                            >
+                                <mat-date-range-input
+                                    class="date-range"
+                                    [rangePicker]="picker"
+                                >
+                                    <input
+                                        matStartDate
+                                        placeholder="Start date"
+                                        (dateChange)="applyDateFilter()"
+                                        [(ngModel)]="startDate"
+                                    />
+                                    <input
+                                        matEndDate
+                                        placeholder="End date"
+                                        (dateChange)="applyDateFilter()"
+                                        [(ngModel)]="endDate"
+                                    />
+                                </mat-date-range-input>
+
+                                <mat-datepicker-toggle
+                                    class="date_picker"
+                                    matIconSuffix
+                                    [for]="picker"
+                                ></mat-datepicker-toggle>
+                                <mat-date-range-picker
+                                    #picker
+                                ></mat-date-range-picker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div>
+                        <button
+                            class="mr-20 pr-10"
+                            mat-raised-button
+                            (click)="openDialog()"
+                        >
+                            <img
+                                src="../../../../assets/images/add_icon.svg"
+                                alt=""
+                                class="width_32"
+                            />
+                            <span class="padding-left-5"> Add Project </span>
+                        </button>
+                    </div>
+                </div>
+                <mat-table
+                    [dataSource]="dataSource"
+                    class="table-container"
+                    matSort
+                >
+                    <ng-container matColumnDef="projectName">
+                        <mat-header-cell
+                            *matHeaderCellDef
+                            class="font_clr min_w_14"
+                        >
+                            Project Name
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="min_w_14">
+                            {{ row?.project_name || '-' }}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="createdDate">
+                        <mat-header-cell
+                            *matHeaderCellDef
+                            class="font_clr min_w_14"
+                        >
+                            Created Date
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="min_w_14">
+                            {{ row?.time | date : 'dd-MM-yyyy HH:mm:ss' }}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="totalPickup">
+                        <mat-header-cell
+                            *matHeaderCellDef
+                            class="font_clr min_w_14"
+                        >
+                            Total Pickups
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="min_w_14">
+                            {{ row?.npickstudents || '-' }}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="totalDrops">
+                        <mat-header-cell
+                            *matHeaderCellDef
+                            class="font_clr min_w_14"
+                        >
+                            Total Drop off
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="min_w_14">
+                            {{ row?.ndropstudents || '-' }}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="totalBus">
+                        <mat-header-cell
+                            *matHeaderCellDef
+                            class="font_clr min_w_14"
+                        >
+                            Total Buses
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="min_w_14">
+                            {{ row?.nbus || '-' }}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef class="font_clr">
+                            Status
+                        </mat-header-cell>
+                        <mat-cell
+                            *matCellDef="let row"
+                            [style.color]="row.dateJoined"
+                        >
+                            <ng-container
+                                *ngIf="statusMap[row.id] == 'loading'"
+                            >
+                                <mat-spinner
+                                    style="
+                                        width: 20px;
+                                        height: 20px;
+                                        margin-top: 20px;
+                                        top: 0%;
+                                        left: 17%;
+                                    "
+                                    diameter="20"
+                                    color="primary"
+                                ></mat-spinner>
+                            </ng-container>
+                            <ng-container *ngIf="statusMap[row.id] == 'done'">
+                                ✅ Done
+                            </ng-container>
+                            <ng-container *ngIf="statusMap[row.id] == 'error'">
+                                ❌ Error
+                            </ng-container>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <mat-header-cell *matHeaderCellDef class="font_clr">
+                            Action
+                        </mat-header-cell>
+                        <mat-cell
+                            *matCellDef="let row"
+                            [style.color]="row.dateJoined"
+                        >
+                            <!-- Show the eye icon only if the status is 'done' -->
+                            <ng-container *ngIf="statusMap[row.id] == 'done'">
+                                <a
+                                    (click)="gotoDetails(row)"
+                                    class="mr-2"
+                                    style="cursor: pointer"
+                                >
+                                    <img
+                                        src="../../../assets/images/eye-icon.svg"
+                                    />
+                                </a>
+                                <div class="d-flex document-details">
+                                    <mat-icon
+                                        matTooltip="download"
+                                        style="cursor: pointer"
+                                        class="download-icon"
+                                        (click)="downloadAllFiles(row)"
+                                        >file_download</mat-icon
+                                    >
+                                </div>
+                            </ng-container>
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row
+                        *matHeaderRowDef="displayedColumns; sticky: true"
+                    ></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns">
+                    </mat-row>
+                    <div style="text-align: center; margin: 20px" *matNoDataRow>
+                        No Record Found
+                    </div>
+                </mat-table>
+                <mat-paginator
+                    [pageSizeOptions]="[25, 50, 75, 100]"
+                ></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter template -->
+<ng-template #filter>
+    <form [formGroup]="projectForm">
+        <div class="row create-driver-section pad_pop">
+            <div class="col-md-6">
+                <mat-label class="lable pop_font">Project Name</mat-label>
+                <mat-form-field appearance="outline" class="matform">
+                    <input
+                        class="txt_bx"
+                        matInput
+                        formControlName="projectName"
+                        type="text"
+                        maxlength="50"
+                    />
+                    <mat-error
+                        *ngIf="
+                            projectForm.get('projectName')?.hasError('required')
+                        "
+                    >
+                        Project Name is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-label class="lable pop_font">Enable Timeout</mat-label>
+                <mat-checkbox
+                    formControlName="isTimeoutEnabled"
+                    (change)="onTimeoutEnabledChange()"
+                ></mat-checkbox>
+            </div>
+
+            <div
+                class="col-md-4"
+                *ngIf="projectForm.get('isTimeoutEnabled')?.value"
+            >
+                <mat-label class="lable pop_font">Timeout (min)</mat-label>
+                <mat-form-field appearance="outline" class="matform">
+                    <mat-select formControlName="timeOut" class="txt_bx">
+                        <mat-option
+                            style="margin-top: 10px"
+                            *ngFor="let time of timeOutValues"
+                            [value]="time"
+                        >
+                            {{ time }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="projectForm.get('timeOut')?.hasError('required')"
+                    >
+                        Timeout is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12 upload_content">
+                <div
+                    class="border_dash padding20"
+                    appDragDropFileUpload
+                    (click)="fileField.click()"
+                >
+                    <img
+                        class="Upload_img"
+                        src="../../../../assets/images/upload_image.svg"
+                    />
+                    <p class="ddinfo font_17">
+                        Drag and Drop File or <span>Browse</span>
+                    </p>
+                    <input
+                        type="file"
+                        formControlName="file"
+                        #fileField
+                        (change)="upload($event)"
+                        hidden
+                        accept=".xlsx"
+                    />
+                </div>
+                <mat-error
+                    *ngIf="
+                        projectForm.get('file')?.hasError('required') &&
+                        projectForm.get('file')?.touched
+                    "
+                >
+                    File is required
+                </mat-error>
+            </div>
+            <div class="col-md-12 p-1" *ngIf="selectedFiles">
+                <mat-card class="example-card p-0">
+                    <mat-card-title class="pl-3 pt-2">{{
+                        selectedFiles?.name
+                    }}</mat-card-title>
+                    <mat-card-subtitle class="pl-3 m-0">{{
+                        size + 'KB'
+                    }}</mat-card-subtitle>
+                    <mat-icon class="mat-icon-rtl-mirror"></mat-icon>
+                </mat-card>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<div *ngIf="displayFilter">
+    <app-generic-popup
+        [componentDetails]="currentFolder"
+        [filterTemplet]="filter"
+        (sendEvent)="getFilterEvent($event)"
+    ></app-generic-popup>
+</div>
