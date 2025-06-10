@@ -80,8 +80,7 @@ export class DriversComponent implements OnInit, OnDestroy {
     displayedColumns = [
         'projectName',
         'createdDate',
-        'totalPickup',
-        'totalDrops',
+        'totalStop',
         'totalBus',
         'status',
         'action',
@@ -191,32 +190,34 @@ export class DriversComponent implements OnInit, OnDestroy {
     }
 
     applyDateFilter() {
-      if (!this.startDate || !this.endDate) {
-          this.dataSource.data = this.projectList?.project_list; // Reset to original data
-          return;
-      }
+        if (!this.startDate || !this.endDate) {
+            this.dataSource.data = this.projectList?.project_list; // Reset to original data
+            return;
+        }
 
-      // Convert and normalize start & end dates
-      const startDateUTC = new Date(this.startDate);
-      startDateUTC.setHours(0, 0, 0, 0); // Start of the day
+        // Convert and normalize start & end dates
+        const startDateUTC = new Date(this.startDate);
+        startDateUTC.setHours(0, 0, 0, 0); // Start of the day
 
-      const endDateUTC = new Date(this.endDate);
-      endDateUTC.setHours(23, 59, 59, 999); // End of the day
+        const endDateUTC = new Date(this.endDate);
+        endDateUTC.setHours(23, 59, 59, 999); // End of the day
 
-      console.log('Formatted Start Date:', startDateUTC);
-      console.log('Formatted End Date:', endDateUTC);
+        console.log('Formatted Start Date:', startDateUTC);
+        console.log('Formatted End Date:', endDateUTC);
 
-      const filteredData = this.projectList?.project_list.filter((item: any) => {
-          const itemDate = new Date(item.time);
-          itemDate.setHours(0, 0, 0, 0); // Normalize item date to remove time zone shifts
+        const filteredData = this.projectList?.project_list.filter(
+            (item: any) => {
+                const itemDate = new Date(item.time);
+                itemDate.setHours(0, 0, 0, 0); // Normalize item date to remove time zone shifts
 
-          console.log('Item Date:', itemDate);
+                console.log('Item Date:', itemDate);
 
-          return itemDate >= startDateUTC && itemDate <= endDateUTC;
-      });
+                return itemDate >= startDateUTC && itemDate <= endDateUTC;
+            }
+        );
 
-      this.dataSource.data = filteredData;
-  }
+        this.dataSource.data = filteredData;
+    }
 
     // Select file and check if it is json or csv
     upload(event: any): void {

@@ -212,7 +212,9 @@ export class LiveTrackingComponent implements OnInit, OnDestroy {
                             ];
 
                             if (this.sheetList.length > 0) {
-                                this.liveTrackForm.patchValue({ sheet: 'All' });
+                                this.liveTrackForm.patchValue({
+                                    sheet: this.sheetList[0],
+                                });
 
                                 this.selectedSheet =
                                     successData.project_row.response_data;
@@ -513,7 +515,7 @@ export class LiveTrackingComponent implements OnInit, OnDestroy {
 
                                     let markerColor =
                                         this.arrayOfColor[routeIndex];
-                                    let tooltipText = `Route ${routeIndex} - ${stop['Student Name']} / Address: ${stop['Point Address']}`;
+                                    let tooltipText = `Route ${routeIndex} - ${stop['Customer Name']} / Address: ${stop['Order Details']}`;
 
                                     if (index === 0) {
                                         markerColor = 'red';
@@ -556,8 +558,8 @@ export class LiveTrackingComponent implements OnInit, OnDestroy {
     }
 
     downloadFile() {
-        let base64Data = this.selectedSheet?.excel_b64;
-        let fileName = this.selectedSheet?.excel_filename;
+        let base64Data = this.selectedSheet[0]?.response.excel_b64;
+        let fileName = this.selectedSheet[0]?.response.excel_filename;
         const byteCharacters = atob(base64Data); // Decode Base64
         const byteNumbers = new Array(byteCharacters.length);
 

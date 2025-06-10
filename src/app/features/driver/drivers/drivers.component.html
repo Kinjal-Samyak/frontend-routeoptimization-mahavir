@@ -1,6 +1,6 @@
 <div class="section-view">
     <div class="row">
-        <div class="col-md-3 d-flex pad_lr_0 justify-content-between mtb10">
+        <div class="col-md-4 d-flex pad_lr_0 justify-content-between mtb10">
             <mat-card appearance="outlined" class="card1">
                 <mat-card-content
                     ><h2>
@@ -12,27 +12,19 @@
                 </mat-card-content>
             </mat-card>
         </div>
-        <div class="col-md-3 d-flex pad_lr_0 justify-content-between mtb10">
+        <div class="col-md-4 d-flex pad_lr_0 justify-content-between mtb10">
             <mat-card appearance="outlined" class="card2">
                 <mat-card-content
                     ><h2>{{ cardsData ? cardsData?.npickstudents : 0 }}</h2>
-                    <span>Total Pickups </span>
+                    <span>Total Stops </span>
                 </mat-card-content>
             </mat-card>
         </div>
-        <div class="col-md-3 d-flex pad_lr_0 justify-content-between mtb10">
-            <mat-card appearance="outlined" class="card3">
-                <mat-card-content
-                    ><h2>{{ cardsData ? cardsData?.ndropstudents : 0 }}</h2>
-                    <span>Total Drop off </span>
-                </mat-card-content>
-            </mat-card>
-        </div>
-        <div class="col-md-3 d-flex pad_lr_0 justify-content-between mtb10">
+        <div class="col-md-4 d-flex pad_lr_0 justify-content-between mtb10">
             <mat-card appearance="outlined" class="card4">
                 <mat-card-content>
-                    <h2>{{ cardsData ? cardsData?.nbus : 0 }}</h2>
-                    <span>Total Buses </span>
+                    <h2>{{ cardsData ? cardsData?.nvehicles : 0 }}</h2>
+                    <span>Total Vehicles </span>
                 </mat-card-content>
             </mat-card>
         </div>
@@ -146,7 +138,7 @@
                             {{ row?.time | date : 'dd-MM-yyyy HH:mm:ss' }}
                         </mat-cell>
                     </ng-container>
-                    <ng-container matColumnDef="totalPickup">
+                    <!-- <ng-container matColumnDef="totalPickup">
                         <mat-header-cell
                             *matHeaderCellDef
                             class="font_clr min_w_14"
@@ -156,16 +148,16 @@
                         <mat-cell *matCellDef="let row" class="min_w_14">
                             {{ row?.npickstudents || '-' }}
                         </mat-cell>
-                    </ng-container>
-                    <ng-container matColumnDef="totalDrops">
+                    </ng-container> -->
+                    <ng-container matColumnDef="totalStop">
                         <mat-header-cell
                             *matHeaderCellDef
                             class="font_clr min_w_14"
                         >
-                            Total Drop off
+                            Total Stops
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row" class="min_w_14">
-                            {{ row?.ndropstudents || '-' }}
+                            {{ row?.npickstudents || '-' }}
                         </mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="totalBus">
@@ -173,10 +165,10 @@
                             *matHeaderCellDef
                             class="font_clr min_w_14"
                         >
-                            Total Buses
+                            Total Vehicles
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row" class="min_w_14">
-                            {{ row?.nbus || '-' }}
+                            {{ row?.nvehicles || '-' }}
                         </mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="status">

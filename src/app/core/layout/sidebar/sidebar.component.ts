@@ -106,14 +106,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.subscriptions.push(
             this.auth.logOut().subscribe(
                 (response: any) => {
-                    if (response.code == 200) {
-                        this.toastr.success(
-                            'Success',
-                            'User Loggedout successfully'
-                        );
-                        sessionStorage.removeItem('token');
-                        this.router.navigate(['login']);
-                    }
+                    this.toastr.success(
+                        'Success',
+                        'User Loggedout successfully'
+                    );
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    this.router.navigate(['/login']).then(() => {
+                        setTimeout(() => window.location.reload(), 500); // 👈 optional: allow cleanup before reload
+                    });
                 },
                 (error) => {
                     this.toastr.error('Error', 'Something went wrong');

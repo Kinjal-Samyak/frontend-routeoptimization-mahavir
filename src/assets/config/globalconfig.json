@@ -1,5 +1,5 @@
 {
-    "authAPI": "http://optischoolrouteapi.sipldemo.in/authenticationapi",
+    "authAPI": "http://mahavirplastagencyroapi.sipldemo.in/authenticationapi",
     "csvFileUrl": "http://stagingna.nglog.com/CustomerCSVService/Report/",
     "routeoptimizationUrl": "https://stgconnectws.nglog.com/stgrouteoptimization/api/Optimize/",
     "driverAPI": "http://optischoolrouteapi.sipldemo.in/driversapi",
@@ -9,6 +9,6 @@
     "historyAPI": "http://optischoolrouteapi.sipldemo.in/historyapi",
     "optimizeRoute": "http://optischoolrouteapi.sipldemo.in/Routetransaction",
     "routeTrackingAPI": "http://optischoolrouteapi.sipldemo.in/RouteTrackingApi",
-    "userAPI": "http://optischoolrouteapi.sipldemo.in/usersapi-school",
-    "pythonUrl": "http://10.100.111.124:8222/"
+    "userAPI": "http://mahavirplastagencyroapi.sipldemo.in/usersapi-school",
+    "pythonUrl": "http://10.100.111.124:8111/"
 }
