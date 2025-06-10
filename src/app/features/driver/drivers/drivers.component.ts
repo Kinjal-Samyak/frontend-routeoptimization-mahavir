@@ -417,7 +417,7 @@ export class DriversComponent implements OnInit, OnDestroy {
                             this.projectList?.project_list.forEach(
                                 (project: any) => {
                                     // Check if config_data is not defined, is null, or is an empty object/array/string
-                                    if (project.nstudents == 0) {
+                                    if (project.npickstudents == 0) {
                                         this.checkStatus(project, project.id); // Call checkStatus for missing or empty config_data
                                         this.statusMap[project.id] = 'loading'; // Set status to 'loading' if config_data is missing
                                     } else {

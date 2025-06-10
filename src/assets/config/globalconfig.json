@@ -10,5 +10,5 @@
     "optimizeRoute": "http://optischoolrouteapi.sipldemo.in/Routetransaction",
     "routeTrackingAPI": "http://optischoolrouteapi.sipldemo.in/RouteTrackingApi",
     "userAPI": "http://mahavirplastagencyroapi.sipldemo.in/usersapi-school",
-    "pythonUrl": "http://10.100.111.124:8111/"
+    "pythonUrl": "http://mahavirplastagencyropyapi.sipldemo.in/"
 }
