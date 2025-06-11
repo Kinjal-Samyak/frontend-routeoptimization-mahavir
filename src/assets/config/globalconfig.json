@@ -9,6 +9,6 @@
     "historyAPI": "http://optischoolrouteapi.sipldemo.in/historyapi",
     "optimizeRoute": "http://optischoolrouteapi.sipldemo.in/Routetransaction",
     "routeTrackingAPI": "http://optischoolrouteapi.sipldemo.in/RouteTrackingApi",
-    "userAPI": "http://mahavirplastagencyroapi.sipldemo.in/usersapi-school",
+    "userAPI": "http://mahavirplastagencyroapi.sipldemo.in/usersapi",
     "pythonUrl": "http://mahavirplastagencyropyapi.sipldemo.in/"
 }
