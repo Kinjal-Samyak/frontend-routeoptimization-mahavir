@@ -76,12 +76,173 @@ export class LiveTrackingComponent implements OnInit, OnDestroy {
     // Center coordinates of the map
     center: google.maps.LatLngLiteral = { lat: 23.030847, lng: 72.563625 };
 
-    // Map options
-    options: google.maps.MapOptions = {
+    stylesArray = [
+        {
+            elementType: 'geometry',
+            stylers: [
+                {
+                    color: '#f5f5f5',
+                },
+            ],
+        },
+        {
+            elementType: 'labels.icon',
+            stylers: [
+                {
+                    visibility: 'off',
+                },
+            ],
+        },
+        {
+            elementType: 'labels.text.fill',
+            stylers: [
+                {
+                    color: '#616161',
+                },
+            ],
+        },
+        {
+            elementType: 'labels.text.stroke',
+            stylers: [
+                {
+                    color: '#f5f5f5',
+                },
+            ],
+        },
+        {
+            featureType: 'administrative.land_parcel',
+            elementType: 'labels.text.fill',
+            stylers: [
+                {
+                    color: '#bdbdbd',
+                },
+            ],
+        },
+        {
+            featureType: 'poi',
+            elementType: 'geometry',
+            stylers: [
+                {
+                    color: '#eeeeee',
+                },
+            ],
+        },
+        {
+            featureType: 'poi',
+            elementType: 'labels.text.fill',
+            stylers: [
+                {
+                    color: '#757575',
+                },
+            ],
+        },
+        {
+            featureType: 'poi.park',
+            elementType: 'geometry',
+            stylers: [
+                {
+                    color: '#e5e5e5',
+                },
+            ],
+        },
+        {
+            featureType: 'poi.park',
+            elementType: 'labels.text.fill',
+            stylers: [
+                {
+                    color: '#9e9e9e',
+                },
+            ],
+        },
+        {
+            featureType: 'road',
+            elementType: 'geometry',
+            stylers: [
+                {
+                    color: '#ffffff',
+                },
+            ],
+        },
+        {
+            featureType: 'road.arterial',
+            elementType: 'labels.text.fill',
+            stylers: [
+                {
+                    color: '#757575',
+                },
+            ],
+        },
+        {
+            featureType: 'road.highway',
+            elementType: 'geometry',
+            stylers: [
+                {
+                    color: '#dadada',
+                },
+            ],
+        },
+        {
+            featureType: 'road.highway',
+            elementType: 'labels.text.fill',
+            stylers: [
+                {
+                    color: '#616161',
+                },
+            ],
+        },
+        {
+            featureType: 'road.local',
+            elementType: 'labels.text.fill',
+            stylers: [
+                {
+                    color: '#9e9e9e',
+                },
+            ],
+        },
+        {
+            featureType: 'transit.line',
+            elementType: 'geometry',
+            stylers: [
+                {
+                    color: '#e5e5e5',
+                },
+            ],
+        },
+        {
+            featureType: 'transit.station',
+            elementType: 'geometry',
+            stylers: [
+                {
+                    color: '#eeeeee',
+                },
+            ],
+        },
+        {
+            featureType: 'water',
+            elementType: 'geometry',
+            stylers: [
+                {
+                    color: '#c9c9c9',
+                },
+            ],
+        },
+        {
+            featureType: 'water',
+            elementType: 'labels.text.fill',
+            stylers: [
+                {
+                    color: '#9e9e9e',
+                },
+            ],
+        },
+    ];
+      // Map options
+      options: google.maps.MapOptions = {
         zoomControl: true,
         scrollwheel: true,
         disableDoubleClickZoom: false,
-        mapTypeId: 'roadmap' as unknown as google.maps.MapTypeId,
+        mapTypeId: 'roadmap', // You can use 'roadmap' or 'hybrid', 'satellite' etc.
+        styles: this.stylesArray,
     };
 
     // Array to store markers on the map
